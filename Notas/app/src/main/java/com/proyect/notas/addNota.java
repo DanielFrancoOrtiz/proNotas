@@ -7,6 +7,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.Toast;
+
+import com.proyect.notas.Daos.DaoNotaTarea;
+import com.proyect.notas.Daos.NotaTarea;
+
+import java.sql.Date;
+import java.sql.Time;
 
 
 /**
@@ -54,17 +64,52 @@ public class addNota extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
+    Button btnOk;
+    EditText etName;
+    EditText etNote;
+    EditText etTime;
+    EditText etDate;
+    Switch swActivity;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_nota, container, false);
+        View v = inflater.inflate(R.layout.fragment_add_nota, container, false);
+        btnOk = (Button) v.findViewById(R.id.btnOk);
+        etName = (EditText) v.findViewById(R.id.etName);
+        etNote = (EditText) v.findViewById(R.id.etNote);
+        etTime = (EditText) v.findViewById(R.id.etTime);
+        etDate = (EditText) v.findViewById(R.id.etDate);
+        swActivity = (Switch) v.findViewById(R.id.swActivity);
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               if (swActivity.isActivated()){
+                   Toast.makeText(getActivity(),"Actividad", Toast.LENGTH_LONG).show();
+                   DaoNotaTarea daoNotaTarea = new DaoNotaTarea(getContext());
+
+                   daoNotaTarea.Insert(new NotaTarea(0,etName.getText().toString(),etNote.getText().toString()
+                   ,2, Date.valueOf(etDate.getText().toString()), Time.valueOf(etTime.getText().toString())));
+
+               }else{
+                   DaoNotaTarea daoNotaTarea = new DaoNotaTarea(getContext());
+                   Toast.makeText(getActivity(),"Nota", Toast.LENGTH_LONG).show();
+                   daoNotaTarea.Insert(new NotaTarea(0,etName.getText().toString(),etNote.getText().toString()
+                           ,1, null,null));
+               }
+            }
+        });
+
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -106,7 +151,5 @@ public class addNota extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public void btnOk_Click(View v){
-        
-    }
+
 }
