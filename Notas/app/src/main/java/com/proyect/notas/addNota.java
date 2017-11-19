@@ -93,7 +93,7 @@ public class addNota extends Fragment {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               if (swActivity.isActivated()){
+               if (swActivity.isChecked()){
                    Toast.makeText(getActivity(),"Actividad", Toast.LENGTH_LONG).show();
                    DaoNotaTarea daoNotaTarea = new DaoNotaTarea(getContext());
 
