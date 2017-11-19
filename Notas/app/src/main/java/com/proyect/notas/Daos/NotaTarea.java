@@ -74,4 +74,9 @@ public class NotaTarea {
     public void setHora(Time hora) {
         this.hora = hora;
     }
+
+    @Override
+    public String toString() {
+        return getTitulo();
+    }
 }

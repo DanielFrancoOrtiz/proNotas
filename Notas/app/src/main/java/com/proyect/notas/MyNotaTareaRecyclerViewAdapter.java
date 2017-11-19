@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.proyect.notas.Daos.NotaTarea;
 import com.proyect.notas.NotaTareaFragment.OnListFragmentInteractionListener;
 import com.proyect.notas.dummy.DummyContent.DummyItem;
 
@@ -18,10 +19,10 @@ import java.util.List;
  */
 public class MyNotaTareaRecyclerViewAdapter extends RecyclerView.Adapter<MyNotaTareaRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<NotaTarea> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyNotaTareaRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public MyNotaTareaRecyclerViewAdapter(List<NotaTarea> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -36,8 +37,8 @@ public class MyNotaTareaRecyclerViewAdapter extends RecyclerView.Adapter<MyNotaT
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mIdView.setText(mValues.get(position).getId());
+        holder.mContentView.setText(mValues.get(position).getTitulo());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +61,7 @@ public class MyNotaTareaRecyclerViewAdapter extends RecyclerView.Adapter<MyNotaT
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public NotaTarea mItem;
 
         public ViewHolder(View view) {
             super(view);

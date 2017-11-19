@@ -10,10 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.proyect.notas.Daos.DaoNotaTarea;
+import com.proyect.notas.Daos.NotaTarea;
 import com.proyect.notas.dummy.DummyContent;
-import com.proyect.notas.dummy.DummyContent.DummyItem;
-
-import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -69,7 +68,7 @@ public class NotaTareaFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyNotaTareaRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new MyNotaTareaRecyclerViewAdapter(new DaoNotaTarea(getActivity()).getAll(), mListener));
         }
         return view;
     }
@@ -104,6 +103,6 @@ public class NotaTareaFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(NotaTarea item);
     }
 }
