@@ -25,8 +25,8 @@ public class DaoNotaTarea {
         cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[1],nota.getTitulo());
         cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[2],nota.getDescripcion());
         cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[3],nota.getTipo());
-        cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[4],nota.getFecha().toString());
-        cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[5],nota.getHora().toString());
+        cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[4],nota.getFecha()!= null ? nota.getFecha().toString():null);
+        cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[5],nota.getHora()!=null ? nota.getHora().toString() : null);
         return database.insert(MiSQLiteOpenHelper.TABLE_NOTAS_NAME,null,cv);
     }
     public long Update(NotaTarea nota){
@@ -35,8 +35,8 @@ public class DaoNotaTarea {
         cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[1],nota.getTitulo());
         cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[2],nota.getDescripcion());
         cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[3],nota.getTipo());
-        cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[4],nota.getFecha().toString());
-        cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[5],nota.getHora().toString());
+        cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[4],nota.getFecha()!= null ? nota.getFecha().toString():null);
+        cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[5],nota.getHora()!=null ? nota.getHora().toString() : null);
 
         return database.update(MiSQLiteOpenHelper.TABLE_NOTAS_NAME,cv,"id = ?",new String[]{String.valueOf(nota.getId())});
     }
