@@ -3,6 +3,7 @@ package com.proyect.notas;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -34,7 +35,24 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                  //       .setAction("Action", null).show();
-                setFragment(0);
+                //
+                switch (opcion){
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        Snackbar.make(view, "Opcion de agregar nota ", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                        setFragment(4);
+                        break;
+                    case 5:
+                        break;
+
+                }
+
             }
         });
 
@@ -79,6 +97,7 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+int opcion =0;
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -87,17 +106,19 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
+            opcion = 1;
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-
+            opcion = 2;
         } else if (id == R.id.nav_slideshow) {
-
+            opcion = 3;
         } else if (id == R.id.nav_note) {
+            opcion = 4;
             setFragment(1);
         } else if (id == R.id.nav_share) {
-
+            opcion = 5;
         } else if (id == R.id.nav_send) {
-
+            opcion = 6;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -108,7 +129,7 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;
         switch (position) {
-            case 0:
+            case 4:
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 addNota addnota = new addNota();
