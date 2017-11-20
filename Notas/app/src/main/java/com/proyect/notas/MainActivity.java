@@ -1,11 +1,17 @@
 package com.proyect.notas;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.PersistableBundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,8 +21,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.proyect.notas.Daos.NotaTarea;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, addNota.OnFragmentInteractionListener,addVideo.OnFragmentInteractionListener,addPhoto.OnFragmentInteractionListener,
@@ -40,8 +53,12 @@ public class MainActivity extends AppCompatActivity
                     case 1:
                         break;
                     case 2:
-                        setFragment(6);
-                        break;
+                       startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),1001);
+                        //setFragment(6);
+                        //dispatchTakePictureIntent();
+
+
+                       break;
                     case 3:
                         setFragment(7);
                         break;
@@ -100,6 +117,8 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 int opcion =0;
+
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -193,4 +212,50 @@ int opcion =0;
     public void onListFragmentInteraction(NotaTarea item) {
 
     }
+    String mCurrentPhotoPath;
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,
+                ".jpg",
+                storageDir
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        return image;
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+
+        // Create the File where the photo should go
+        File photoFile = null;
+        try {
+            photoFile = createImageFile();
+        } catch (IOException ex) {
+            // Error occurred while creating the File
+            ex.printStackTrace();
+        }
+        // Continue only if the File was successfully created
+        if (photoFile != null) {
+            Toast.makeText(this,
+                    Uri.fromFile(photoFile).toString(),Toast.LENGTH_LONG).show();
+
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                    Uri.fromFile(photoFile));
+
+            startActivityForResult(takePictureIntent, 1001);
+        }
+
+    }
+
+
+
 }

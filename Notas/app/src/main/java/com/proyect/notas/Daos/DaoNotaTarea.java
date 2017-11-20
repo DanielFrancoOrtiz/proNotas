@@ -52,7 +52,10 @@ public class DaoNotaTarea {
         if(cur.moveToFirst()){
             lista = new ArrayList<>();
             do{
-                NotaTarea not = new NotaTarea(cur.getInt(0),cur.getString(1),cur.getString(2),
+                NotaTarea not = new NotaTarea(
+                        cur.getInt(0),
+                        cur.getString(1),
+                        cur.getString(2),
                         cur.getInt(3),
                         cur.getString(4)!=null ? Date.valueOf(cur.getString(4)) : null,
                         cur.getString(5)!=null ? Time.valueOf(cur.getString(5)) : null);
