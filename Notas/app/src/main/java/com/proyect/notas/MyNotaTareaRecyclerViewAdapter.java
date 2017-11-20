@@ -37,7 +37,7 @@ public class MyNotaTareaRecyclerViewAdapter extends RecyclerView.Adapter<MyNotaT
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getId());
+        holder.mIdView.setText(String.valueOf( mValues.get(position).getId()));
         holder.mContentView.setText(mValues.get(position).getTitulo());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
