@@ -19,8 +19,8 @@ import android.view.MenuItem;
 import com.proyect.notas.Daos.NotaTarea;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, addNota.OnFragmentInteractionListener,
-        NotaTareaFragment.OnListFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, addNota.OnFragmentInteractionListener,addVideo.OnFragmentInteractionListener,addPhoto.OnFragmentInteractionListener,
+        NotaTareaFragment.OnListFragmentInteractionListener, Video.OnFragmentInteractionListener, Camera.OnFragmentInteractionListener  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +40,15 @@ public class MainActivity extends AppCompatActivity
                     case 1:
                         break;
                     case 2:
+                        setFragment(6);
                         break;
                     case 3:
+                        setFragment(7);
                         break;
                     case 4:
                         Snackbar.make(view, "Opcion de agregar nota ", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                        setFragment(4);
+                        setFragment(8);
                         break;
                     case 5:
                         break;
@@ -107,14 +109,17 @@ int opcion =0;
 
         if (id == R.id.nav_camera) {
             opcion = 1;
+
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
             opcion = 2;
+            setFragment(2);
         } else if (id == R.id.nav_slideshow) {
             opcion = 3;
+            setFragment(3);
         } else if (id == R.id.nav_note) {
             opcion = 4;
-            setFragment(1);
+            setFragment(4);
         } else if (id == R.id.nav_share) {
             opcion = 5;
         } else if (id == R.id.nav_send) {
@@ -129,18 +134,52 @@ int opcion =0;
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;
         switch (position) {
+
+            case 1:
+
+                break;
+            case 2:
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                Camera camera = new Camera();
+                fragmentTransaction.replace(R.id.fragment, camera);
+                fragmentTransaction.commit();
+                break;
+            case 3:
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                Video video = new Video();
+                fragmentTransaction.replace(R.id.fragment, video);
+                fragmentTransaction.commit();
+                break;
             case 4:
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                NotaTareaFragment notaTareaFragment = new NotaTareaFragment();
+                fragmentTransaction.replace(R.id.fragment, notaTareaFragment);
+                fragmentTransaction.commit();
+                break;
+            case 5:
+                break;
+            case 6:
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                addPhoto addPhoto = new addPhoto();
+                fragmentTransaction.replace(R.id.fragment, addPhoto);
+                fragmentTransaction.commit();
+                break;
+            case 7:
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                addVideo addVideo = new addVideo();
+                fragmentTransaction.replace(R.id.fragment, addVideo);
+                fragmentTransaction.commit();
+                break;
+            case 8:
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 addNota addnota = new addNota();
                 fragmentTransaction.replace(R.id.fragment, addnota);
-                fragmentTransaction.commit();
-                break;
-            case 1:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                NotaTareaFragment starredFragment = new NotaTareaFragment();
-                fragmentTransaction.replace(R.id.fragment, starredFragment);
                 fragmentTransaction.commit();
                 break;
         }
