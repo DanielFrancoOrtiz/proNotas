@@ -210,8 +210,15 @@ int opcion =0;
 
     @Override
     public void onListFragmentInteraction(NotaTarea item) {
-
+        FragmentManager fragmentManager;
+        FragmentTransaction fragmentTransaction;
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        addNota nota = addNota.newInstance(item);
+        fragmentTransaction.replace(R.id.fragment, nota);
+        fragmentTransaction.commit();
     }
+
     String mCurrentPhotoPath;
 
     private File createImageFile() throws IOException {

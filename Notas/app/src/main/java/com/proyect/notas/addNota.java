@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.sql.Time;
 
 
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -34,8 +35,8 @@ public class addNota extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private NotaTarea mParam1;
+    //private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -47,16 +48,14 @@ public class addNota extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param nota Parameter 1.
      * @return A new instance of fragment addNota.
      */
     // TODO: Rename and change types and number of parameters
-    public static addNota newInstance(String param1, String param2) {
+    public static addNota newInstance(NotaTarea nota) {
         addNota fragment = new addNota();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(ARG_PARAM1,nota);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,8 +65,7 @@ public class addNota extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mParam1 = (NotaTarea) getArguments().getSerializable(ARG_PARAM1);
         }
     }
 
@@ -90,22 +88,39 @@ public class addNota extends Fragment {
         etTime = (EditText) v.findViewById(R.id.etTime);
         etDate = (EditText) v.findViewById(R.id.etDate);
         swActivity = (Switch) v.findViewById(R.id.swActivity);
+
+        if(getArguments()!= null){
+            etName.setText(mParam1.getTitulo());
+            etNote.setText(mParam1.getDescripcion()+""+mParam1.getId());
+            if(mParam1.getTipo()==2){
+                swActivity.setChecked(true);
+                etDate.setText(mParam1.getFecha().toString());
+                etTime.setText(mParam1.getHora().toString());
+            }else{
+                swActivity.setChecked(false);
+            }
+
+        }
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               if (swActivity.isChecked()){
-                   Toast.makeText(getActivity(),"Actividad", Toast.LENGTH_LONG).show();
-                   DaoNotaTarea daoNotaTarea = new DaoNotaTarea(getContext());
+                if(getArguments()!=null) {
 
-                   daoNotaTarea.Insert(new NotaTarea(0,etName.getText().toString(),etNote.getText().toString()
-                   ,2, Date.valueOf(etDate.getText().toString()), Time.valueOf(etTime.getText().toString())));
+                }else{
+                    if (swActivity.isChecked()) {
+                        Toast.makeText(getActivity(), "Actividad", Toast.LENGTH_LONG).show();
+                        DaoNotaTarea daoNotaTarea = new DaoNotaTarea(getContext());
 
-               }else{
-                   DaoNotaTarea daoNotaTarea = new DaoNotaTarea(getContext());
-                   Toast.makeText(getActivity(),"Nota", Toast.LENGTH_LONG).show();
-                   daoNotaTarea.Insert(new NotaTarea(0,etName.getText().toString(),etNote.getText().toString()
-                           ,1, null,null));
-               }
+                        daoNotaTarea.Insert(new NotaTarea(0, etName.getText().toString(), etNote.getText().toString()
+                                , 2, Date.valueOf(etDate.getText().toString()), Time.valueOf(etTime.getText().toString())));
+
+                    } else {
+                        DaoNotaTarea daoNotaTarea = new DaoNotaTarea(getContext());
+                        Toast.makeText(getActivity(), "Nota", Toast.LENGTH_LONG).show();
+                        daoNotaTarea.Insert(new NotaTarea(0, etName.getText().toString(), etNote.getText().toString()
+                                , 1, null, null));
+                    }
+                }
             }
         });
 
