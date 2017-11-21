@@ -38,11 +38,11 @@ public class DaoNotaTarea {
         cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[4],nota.getFecha()!= null ? nota.getFecha().toString():null);
         cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[5],nota.getHora()!=null ? nota.getHora().toString() : null);
 
-        return database.update(MiSQLiteOpenHelper.TABLE_NOTAS_NAME,cv,"id = ?",new String[]{String.valueOf(nota.getId())});
+        return database.update(MiSQLiteOpenHelper.TABLE_NOTAS_NAME,cv,"_id = ?",new String[]{String.valueOf(nota.getId())});
     }
 
     public long Delete(int id){
-        return database.delete(MiSQLiteOpenHelper.TABLE_NOTAS_NAME,"id = ?",new String[]{String.valueOf(id)});
+        return database.delete(MiSQLiteOpenHelper.TABLE_NOTAS_NAME,"_id = ?",new String[]{String.valueOf(id)});
     }
 
     public List<NotaTarea> getAll(){
@@ -67,7 +67,7 @@ public class DaoNotaTarea {
 
     public NotaTarea getNotaTarea(int id){
         Cursor cur = database.query(MiSQLiteOpenHelper.TABLE_NOTAS_NAME,MiSQLiteOpenHelper.COLUMNS_NOTAS
-                ,"id = ?",new String[]{String.valueOf(id)},null,null,null);
+                ,"_id = ?",new String[]{String.valueOf(id)},null,null,null);
         if(cur.moveToFirst()){
             return new NotaTarea(cur.getInt(0),cur.getString(1),cur.getString(2),
                     cur.getInt(3), Date.valueOf(cur.getString(4)), Time.valueOf(cur.getString(5)));

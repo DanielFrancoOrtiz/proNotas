@@ -2,6 +2,8 @@ package com.proyect.notas;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,16 +26,25 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.proyect.notas.Daos.DaoImagenVideo;
+import com.proyect.notas.Daos.FotoVideo;
 import com.proyect.notas.Daos.NotaTarea;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, addNota.OnFragmentInteractionListener,addVideo.OnFragmentInteractionListener,addPhoto.OnFragmentInteractionListener,
         NotaTareaFragment.OnListFragmentInteractionListener, Video.OnFragmentInteractionListener, Camera.OnFragmentInteractionListener  {
+
+    /*
+    Esta variable se utilizara para saber cual de las opciones del menu
+    esta seleccionada y dependiendo de su valor ejecutar la acción correspondiente
+   */
+    int opcion =0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,17 +57,19 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                 //       .setAction("Action", null).show();
-                //
+                /*
+                * En este switch se asignaran las funciones al boton flotante, se permitiran
+                * las funciones de agregar nota, actividad, fotos...
+                * los valores se definen mediante la opcion del menu que se selecciono
+                * */
                 switch (opcion){
                     case 1:
                         break;
                     case 2:
-                       startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),1001);
+                       //startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),1001);
                         //setFragment(6);
                         //dispatchTakePictureIntent();
-
+                        Camara();
 
                        break;
                     case 3:
@@ -69,6 +82,9 @@ public class MainActivity extends AppCompatActivity
                         break;
                     case 5:
                         break;
+                        default:
+                            setFragment(8);
+                            break;
 
                 }
 
@@ -116,10 +132,12 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
-int opcion =0;
 
 
 
+/*
+* Se asignan los valores a la variable opcion
+* */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -128,7 +146,6 @@ int opcion =0;
 
         if (id == R.id.nav_camera) {
             opcion = 1;
-
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
             opcion = 2;
@@ -149,6 +166,10 @@ int opcion =0;
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    /*
+    * dependiendo de la opcion, se agrega el fragmento correspondiente
+    * */
     public void setFragment(int position) {
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;
@@ -219,50 +240,56 @@ int opcion =0;
         fragmentTransaction.commit();
     }
 
-    String mCurrentPhotoPath;
+    String path;
+    String nombre;
+    File imageFile;
+    public void Camara()
+    {
+        //se crea una carpeta en el directorio externo
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"imgNotas");
+        /*
+        se verifica si la carpeta ya existe.
+            si no existe se crea
+        * */
+        boolean existe = file.exists();
+        if (!existe){
+            existe = file.mkdirs();
+        }
+        if (existe){
+            /*
+            * se crea el nombre que tendra la imagen
+            * */
+            Long consecutivo = System.currentTimeMillis()/1000;
+            nombre = consecutivo.toString()+".jpg";
+            //se asigna la ruta en que sera guardada
+            path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator+"imgNotas"+File.separator+nombre;
+            imageFile = new File(path);
+            //Se crea el intent que permitira utilizar la camara del celular
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            //se le asigna el archivo que representara la imagen
+            intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(imageFile));
+            startActivityForResult(intent,20);
 
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,
-                ".jpg",
-                storageDir
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
-        return image;
+        }
     }
 
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-
-        // Create the File where the photo should go
-        File photoFile = null;
-        try {
-            photoFile = createImageFile();
-        } catch (IOException ex) {
-            // Error occurred while creating the File
-            ex.printStackTrace();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch ((requestCode)){
+            case  20:
+                //se escanea la imagen
+                MediaScannerConnection.scanFile(getApplicationContext(), new String[]{path}, null,
+                        new MediaScannerConnection.OnScanCompletedListener() {
+                            @Override
+                            public void onScanCompleted(String path, Uri uri) {
+                                Log.i("path",path);
+                            }
+                        });
+                Bitmap bitmap = BitmapFactory.decodeFile(path);
+                //ImageView im.setImageBitmap(bitmap);
+                new DaoImagenVideo(this).Insert(new FotoVideo(0,nombre,path));
+                break;
         }
-        // Continue only if the File was successfully created
-        if (photoFile != null) {
-            Toast.makeText(this,
-                    Uri.fromFile(photoFile).toString(),Toast.LENGTH_LONG).show();
-
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                    Uri.fromFile(photoFile));
-
-            startActivityForResult(takePictureIntent, 1001);
-        }
-
     }
-
-
-
 }

@@ -1,9 +1,10 @@
 package com.proyect.notas.Daos;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
 
-public class NotaTarea {
+public class NotaTarea implements Serializable {
 
     private int id;
     private String titulo;

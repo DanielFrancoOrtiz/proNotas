@@ -1,5 +1,6 @@
 package com.proyect.notas;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -17,7 +19,7 @@ import com.proyect.notas.Daos.NotaTarea;
 
 import java.sql.Date;
 import java.sql.Time;
-
+import java.util.Calendar;
 
 
 /**
@@ -75,7 +77,7 @@ public class addNota extends Fragment {
     EditText etTime;
     EditText etDate;
     Switch swActivity;
-
+    int year,mes,dia;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -123,6 +125,7 @@ public class addNota extends Fragment {
                 }
             }
         });
+
 
         return v;
     }
