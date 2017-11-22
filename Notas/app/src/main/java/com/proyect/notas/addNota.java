@@ -1,6 +1,7 @@
 package com.proyect.notas;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.proyect.notas.Daos.DaoNotaTarea;
@@ -125,7 +127,50 @@ public class addNota extends Fragment {
                 }
             }
         });
+        etDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b){
+                    final Calendar calendario = Calendar.getInstance();
+                    int yy = calendario.get(Calendar.YEAR);
+                    int mm = calendario.get(Calendar.MONTH);
+                    int dd = calendario.get(Calendar.DAY_OF_MONTH);
 
+
+                    DatePickerDialog datePicker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                            String fecha = String.valueOf(year) +"-"+String.valueOf(monthOfYear)
+                                    +"-"+String.valueOf(dayOfMonth);
+                            etDate.setText(fecha);
+
+                        }
+                    }, yy, mm, dd);
+
+                    datePicker.show();
+                }
+            }
+        });
+        etTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b) {
+                    final Calendar calendario = Calendar.getInstance();
+                    final int hh = calendario.get(Calendar.HOUR_OF_DAY);
+                    final int mm = calendario.get(Calendar.MINUTE);
+                    TimePickerDialog timePicker = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                            String time = String.valueOf(i) + ":" + String.valueOf(i1) + ":00" ;
+                            etTime.setText(time);
+
+                        }
+                    }, hh, mm, true);
+                    timePicker.show();
+                }
+            }
+        });
 
         return v;
     }
