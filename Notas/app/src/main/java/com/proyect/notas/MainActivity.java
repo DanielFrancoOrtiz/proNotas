@@ -50,6 +50,9 @@ public class MainActivity extends AppCompatActivity
    */
     int opcion =0;
     private final int  PERMISSIONS =1 ;
+    private final int  FOTO = 1;
+    private final int  VIDEO = 2;
+    private final int AUDIO =3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +80,8 @@ public class MainActivity extends AppCompatActivity
 
                        break;
                     case 3:
-                        setFragment(7);
+                        //setFragment(7);
+                        Video();
                         break;
                     case 4:
                         Snackbar.make(view, "Opcion de agregar nota ", Snackbar.LENGTH_LONG)
@@ -246,7 +250,7 @@ public class MainActivity extends AppCompatActivity
 
     String path;
     String nombre;
-    File imageFile;
+    File archivoAG;
     public void Camara()
     {
         //se crea una carpeta en el directorio externo
@@ -266,22 +270,48 @@ public class MainActivity extends AppCompatActivity
             Long consecutivo = System.currentTimeMillis()/1000;
             nombre = consecutivo.toString()+".jpg";
             //se asigna la ruta en que sera guardada
-            path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator+"imgNotas"+File.separator+nombre;
-            imageFile = new File(path);
+            path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) +
+                    File.separator+"imgNotas"+File.separator+nombre;
+
+            archivoAG = new File(path);
             //Se crea el intent que permitira utilizar la camara del celular
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             //se le asigna el archivo que representara la imagen
-            intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(imageFile));
-            startActivityForResult(intent,20);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(archivoAG));
+            startActivityForResult(intent,FOTO);
 
         }
     }
+    private void Video() {
+        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+            Long consecutivo = System.currentTimeMillis()/1000;
+            nombre = consecutivo.toString()+".mp4";
+            path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) +
+                File.separator+"imgNotas"+File.separator+nombre;
+            archivoAG = new File(path);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(archivoAG));
+
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY,1);
+
+        startActivityForResult(intent, VIDEO);
+    }
+    public void Audio(){
+        Intent intent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
+        Long consecutivo = System.currentTimeMillis()/1000;
+        nombre = consecutivo.toString()+".mp4";
+        path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) +
+                File.separator+"imgNotas"+File.separator+nombre;
+        archivoAG = new File(path);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(archivoAG));
+        startActivityForResult(intent, AUDIO);
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch ((requestCode)){
-            case  20:
+            case  FOTO:
                 //se escanea la imagen
                 MediaScannerConnection.scanFile(getApplicationContext(), new String[]{path}, null,
                         new MediaScannerConnection.OnScanCompletedListener() {
@@ -293,6 +323,24 @@ public class MainActivity extends AppCompatActivity
                 Bitmap bitmap = BitmapFactory.decodeFile(path);
                 //ImageView im.setImageBitmap(bitmap);
                 new DaoImagenVideo(this).Insert(new FotoVideo(0,nombre,path));
+                break;
+            case VIDEO:
+                MediaScannerConnection.scanFile(getApplicationContext(), new String[]{path}, null,
+                        new MediaScannerConnection.OnScanCompletedListener() {
+                            @Override
+                            public void onScanCompleted(String path, Uri uri) {
+                                Log.i("path",path);
+                            }
+                        });
+                break; 
+            case AUDIO:
+                MediaScannerConnection.scanFile(getApplicationContext(), new String[]{path}, null,
+                        new MediaScannerConnection.OnScanCompletedListener() {
+                            @Override
+                            public void onScanCompleted(String path, Uri uri) {
+                                Log.i("path",path);
+                            }
+                        });
                 break;
         }
     }
