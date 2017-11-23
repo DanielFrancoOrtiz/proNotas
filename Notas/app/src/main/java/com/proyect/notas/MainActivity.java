@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.proyect.notas.Daos.DaoImagenVideo;
 import com.proyect.notas.Daos.FotoVideo;
 import com.proyect.notas.Daos.NotaTarea;
+import com.proyect.notas.dummy.DummyContent;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,7 +43,7 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, addNota.OnFragmentInteractionListener,addVideo.OnFragmentInteractionListener,addPhoto.OnFragmentInteractionListener,
-        NotaTareaFragment.OnListFragmentInteractionListener, Video.OnFragmentInteractionListener, Camera.OnFragmentInteractionListener  {
+        NotaTareaFragment.OnListFragmentInteractionListener, Video.OnFragmentInteractionListener, FotoFragment.OnListFragmentInteractionListener  {
 
     /*
     Esta variable se utilizara para saber cual de las opciones del menu
@@ -189,7 +190,7 @@ public class MainActivity extends AppCompatActivity
             case 2:
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
-                Camera camera = new Camera();
+                FotoFragment camera = new FotoFragment();
                 fragmentTransaction.replace(R.id.fragment, camera);
                 fragmentTransaction.commit();
                 break;
@@ -376,7 +377,21 @@ public class MainActivity extends AppCompatActivity
                         PERMISSIONS);
             }
         }
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO)!=
+                PackageManager.PERMISSION_GRANTED){
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                    Manifest.permission.RECORD_AUDIO)){
+
+            }else{
+                ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.RECORD_AUDIO},
+                        PERMISSIONS);
+            }
+        }
     }
 
 
+    @Override
+    public void onListFragmentInteraction(FotoVideo item) {
+
+    }
 }
