@@ -55,6 +55,7 @@ public class MyFotoRecyclerViewAdapter extends RecyclerView.Adapter<MyFotoRecycl
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - Se recupera el elemento del vector con position.
         holder.imageView.setContentDescription(mDataset.get(position).getdireccion());
+        //Aqui se deberia poder cargar la imagen en el imageView de arriva.
         holder.textView.setText(mDataset.get(position).getNombre()+"\n"+mDataset.get(position).getdireccion());
 
     }
