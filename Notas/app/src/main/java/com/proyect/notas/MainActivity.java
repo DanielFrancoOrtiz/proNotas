@@ -323,7 +323,7 @@ public class MainActivity extends AppCompatActivity
                         });
                 Bitmap bitmap = BitmapFactory.decodeFile(path);
                 //ImageView im.setImageBitmap(bitmap);
-                new DaoImagenVideo(this).Insert(new FotoVideo(0,nombre,path));
+                new DaoImagenVideo(this).Insert(new FotoVideo(0,nombre,path,1));
                 break;
             case VIDEO:
                 MediaScannerConnection.scanFile(getApplicationContext(), new String[]{path}, null,

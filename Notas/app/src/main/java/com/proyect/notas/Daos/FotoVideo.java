@@ -8,11 +8,13 @@ public class FotoVideo {
     int id;
     String nombre;
     String direccion;
+    int tipo;
 
-    public FotoVideo(int id, String nombre, String direccion) {
+    public FotoVideo(int id, String nombre, String direccion,int tipo) {
         this.id = id;
         this.nombre = nombre;
         this.direccion = direccion;
+        this.tipo=tipo;
     }
 
     public int getId() {
@@ -33,5 +35,13 @@ public class FotoVideo {
 
     public void setdireccion(String direccion) {
         this.direccion = direccion;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
     }
 }

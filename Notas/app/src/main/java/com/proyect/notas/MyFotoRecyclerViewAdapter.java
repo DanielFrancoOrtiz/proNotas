@@ -1,5 +1,8 @@
 package com.proyect.notas;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,10 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.proyect.notas.Daos.DaoImagenVideo;
 import com.proyect.notas.Daos.FotoVideo;
 import com.proyect.notas.FotoFragment.OnListFragmentInteractionListener;
 import com.proyect.notas.dummy.DummyContent.DummyItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,6 +41,7 @@ public class MyFotoRecyclerViewAdapter extends RecyclerView.Adapter<MyFotoRecycl
         }
     }
 
+    Context c ;
     // Constructor, puedes crear varios según el tipo de contenido.
     public MyFotoRecyclerViewAdapter(List<FotoVideo> myDataset) {
         mDataset = myDataset;
@@ -44,7 +50,7 @@ public class MyFotoRecyclerViewAdapter extends RecyclerView.Adapter<MyFotoRecycl
     @Override
     public MyFotoRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                    int viewType) {
-
+        c= parent.getContext();
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_card_view, parent, false);
         ViewHolder vh = new ViewHolder(v);
@@ -56,6 +62,11 @@ public class MyFotoRecyclerViewAdapter extends RecyclerView.Adapter<MyFotoRecycl
         // - Se recupera el elemento del vector con position.
         holder.imageView.setContentDescription(mDataset.get(position).getdireccion());
         //Aqui se deberia poder cargar la imagen en el imageView de arriva.
+        DaoImagenVideo da = new DaoImagenVideo(c);
+        List<FotoVideo> lista = da.getAllFotos();
+        Bitmap bitmap = BitmapFactory.decodeFile(lista.get(position).getdireccion());
+        holder.imageView.setImageBitmap(bitmap);
+
         holder.textView.setText(mDataset.get(position).getNombre()+"\n"+mDataset.get(position).getdireccion());
 
     }

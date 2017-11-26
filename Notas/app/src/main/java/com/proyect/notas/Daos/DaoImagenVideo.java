@@ -27,6 +27,7 @@ public class DaoImagenVideo {
         ContentValues cv = new ContentValues();
         cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[1],obj.getNombre());
         cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[2],obj.getdireccion());
+        cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[3],obj.getTipo());
         return  database.insert(MiSQLiteOpenHelper.TABLE_IMAG_VIDEO_NAME,null,cv);
     }
     public long Update(FotoVideo obj){
@@ -34,6 +35,7 @@ public class DaoImagenVideo {
         cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[0],obj.getId());
         cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[1],obj.getNombre());
         cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[2],obj.getdireccion());
+        cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[3],obj.getTipo());
 
         return database.update(MiSQLiteOpenHelper.TABLE_NOTAS_NAME,cv,"_id = ?",new String[]{String.valueOf(obj.getId())});
     }
@@ -49,17 +51,33 @@ public class DaoImagenVideo {
             lista = new ArrayList<>();
             do{
                 FotoVideo fot =  new FotoVideo(cur.getInt(0),
-                        cur.getString(1),cur.getString(2));
+                        cur.getString(1),cur.getString(2),cur.getInt(3));
                lista.add(fot);
             }while (cur.moveToNext());
         }
         return lista;
     }
+    public List<FotoVideo> getAllFotos(){
+        List<FotoVideo> lista = null;
+        Cursor cur = database.query(MiSQLiteOpenHelper.TABLE_IMAG_VIDEO_NAME,MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO
+                ,"tipo = ?",new String[]{String.valueOf(1)},null,null,null);
+        if(cur.moveToFirst()){
+            lista = new ArrayList<>();
+            do{
+                FotoVideo fot =  new FotoVideo(cur.getInt(0),
+                        cur.getString(1),cur.getString(2),cur.getInt(3));
+                lista.add(fot);
+            }while (cur.moveToNext());
+        }
+        return lista;
+    }
+
+
     public FotoVideo getNotaTarea(int id){
         Cursor cur = database.query(MiSQLiteOpenHelper.TABLE_IMAG_VIDEO_NAME,MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO
                 ,"_id = ?",new String[]{String.valueOf(id)},null,null,null);
         if(cur.moveToFirst()){
-            return new FotoVideo(cur.getInt(0), cur.getString(1),cur.getString(2));
+            return new FotoVideo(cur.getInt(0), cur.getString(1),cur.getString(2),cur.getInt(3));
         }
         return null;
 

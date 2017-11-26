@@ -71,7 +71,7 @@ public class FotoFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            if(new DaoImagenVideo(getActivity()).getAll().size()!=0) {
+            if(new DaoImagenVideo(getActivity()).getAllFotos()!=null) {
                 recyclerView.setAdapter(new MyFotoRecyclerViewAdapter(new DaoImagenVideo(getActivity()).getAll()));
             }
         }
