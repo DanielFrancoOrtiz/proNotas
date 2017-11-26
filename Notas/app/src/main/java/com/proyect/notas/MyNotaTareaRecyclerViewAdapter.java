@@ -54,7 +54,7 @@ public class MyNotaTareaRecyclerViewAdapter extends RecyclerView.Adapter<MyNotaT
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return mValues!=null ? mValues.size() : 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
