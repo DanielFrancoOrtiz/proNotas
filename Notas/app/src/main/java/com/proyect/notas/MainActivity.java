@@ -27,6 +27,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -321,8 +322,6 @@ public class MainActivity extends AppCompatActivity
                                 Log.i("path",path);
                             }
                         });
-                Bitmap bitmap = BitmapFactory.decodeFile(path);
-                //ImageView im.setImageBitmap(bitmap);
                 new DaoImagenVideo(this).Insert(new FotoVideo(0,nombre,path,1));
                 break;
             case VIDEO:
@@ -389,9 +388,29 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public void openInGallery(String imageId) {
+        File file = new File(imageId);
+        //Uri uri = Uri.fromFile(file);
+        //Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI.buildUpon().appendPath(imageId).build();
+
+        //Intent i = new Intent(Intent.ACTION_VIEW, Uri.fromFile(file));
+        //i.setType("image/*");
+        //startActivity(i);
+        Uri uri =  Uri.fromFile(file);
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
+        String mime = "*/*";
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        if (mimeTypeMap.hasExtension(
+                mimeTypeMap.getFileExtensionFromUrl(uri.toString())))
+            mime = mimeTypeMap.getMimeTypeFromExtension(
+                    mimeTypeMap.getFileExtensionFromUrl(uri.toString()));
+        intent.setDataAndType(uri,mime);
+        startActivity(intent);
+    }
+
 
     @Override
     public void onListFragmentInteraction(FotoVideo item) {
-
+        openInGallery(item.getdireccion());
     }
 }
