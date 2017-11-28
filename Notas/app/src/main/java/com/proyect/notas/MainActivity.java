@@ -1,6 +1,7 @@
 package com.proyect.notas;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -17,6 +18,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -32,9 +34,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.proyect.notas.Daos.DaoImagenVideo;
+import com.proyect.notas.Daos.DaoNotaTarea;
 import com.proyect.notas.Daos.FotoVideo;
 import com.proyect.notas.Daos.NotaTarea;
-import com.proyect.notas.dummy.DummyContent;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -42,9 +45,11 @@ import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.proyect.notas.R.string.deleting_message;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, addNota.OnFragmentInteractionListener,addVideo.OnFragmentInteractionListener,addPhoto.OnFragmentInteractionListener,
-        NotaTareaFragment.OnListFragmentInteractionListener, Video.OnFragmentInteractionListener, FotoFragment.OnListFragmentInteractionListener  {
+        NotaTareaFragment.OnListFragmentInteractionListener, FotoFragment.OnListFragmentInteractionListener  {
 
     /*
     Esta variable se utilizara para saber cual de las opciones del menu
@@ -154,7 +159,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_audio) {
             opcion = 1;
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
@@ -196,11 +201,7 @@ public class MainActivity extends AppCompatActivity
                 fragmentTransaction.commit();
                 break;
             case 3:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                Video video = new Video();
-                fragmentTransaction.replace(R.id.fragment, video);
-                fragmentTransaction.commit();
+                
                 break;
             case 4:
                 fragmentManager = getSupportFragmentManager();
@@ -240,14 +241,36 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListFragmentInteraction(NotaTarea item) {
-        FragmentManager fragmentManager;
-        FragmentTransaction fragmentTransaction;
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        addNota nota = addNota.newInstance(item);
-        fragmentTransaction.replace(R.id.fragment, nota);
-        fragmentTransaction.commit();
+    public void onListFragmentInteraction(final NotaTarea item, boolean flag) {
+        if(flag){
+            final DaoNotaTarea daoNotaTarea = new DaoNotaTarea(this);
+            AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+            alertDialog.setTitle(getString(R.string.title_dialog));
+            alertDialog.setMessage(getString(R.string.deleting_message));
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            daoNotaTarea.Delete(item.getId());
+                            setFragment(4);
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        }else{
+            FragmentManager fragmentManager;
+            FragmentTransaction fragmentTransaction;
+            fragmentManager = getSupportFragmentManager();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            addNota nota = addNota.newInstance(item);
+            fragmentTransaction.replace(R.id.fragment, nota);
+            fragmentTransaction.commit();
+        }
     }
 
     String path;

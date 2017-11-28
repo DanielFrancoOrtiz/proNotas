@@ -12,8 +12,7 @@ import android.view.ViewGroup;
 
 import com.proyect.notas.Daos.DaoImagenVideo;
 import com.proyect.notas.Daos.FotoVideo;
-import com.proyect.notas.dummy.DummyContent;
-import com.proyect.notas.dummy.DummyContent.DummyItem;
+
 
 import java.util.List;
 

@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.proyect.notas.Daos.DaoNotaTarea;
 import com.proyect.notas.Daos.NotaTarea;
-import com.proyect.notas.dummy.DummyContent;
+
 
 /**
  * A fragment representing a list of Items.
@@ -103,6 +103,6 @@ public class NotaTareaFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(NotaTarea item);
+        void onListFragmentInteraction(NotaTarea item, boolean b);
     }
 }

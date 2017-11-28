@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -102,9 +103,16 @@ public class addNota extends Fragment {
                 etTime.setText(mParam1.getHora().toString());
             }else{
                 swActivity.setChecked(false);
+                stateOfInterface(false);
             }
 
         }
+        if(swActivity.isChecked()){
+            stateOfInterface(true);
+        }else{
+            stateOfInterface(false);
+        }
+
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,48 +140,77 @@ public class addNota extends Fragment {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if(b){
-                    final Calendar calendario = Calendar.getInstance();
-                    int yy = calendario.get(Calendar.YEAR);
-                    int mm = calendario.get(Calendar.MONTH);
-                    int dd = calendario.get(Calendar.DAY_OF_MONTH);
-
-
-                    DatePickerDialog datePicker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
-                            String fecha = String.valueOf(year) +"-"+String.valueOf(monthOfYear)
-                                    +"-"+String.valueOf(dayOfMonth);
-                            etDate.setText(fecha);
-
-                        }
-                    }, yy, mm, dd);
-
-                    datePicker.show();
+                    showPickDate();
                 }
+            }
+        });
+        etDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPickDate();
             }
         });
         etTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if(b) {
-                    final Calendar calendario = Calendar.getInstance();
-                    final int hh = calendario.get(Calendar.HOUR_OF_DAY);
-                    final int mm = calendario.get(Calendar.MINUTE);
-                    TimePickerDialog timePicker = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
-                        @Override
-                        public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                            String time = String.valueOf(i) + ":" + String.valueOf(i1) + ":00" ;
-                            etTime.setText(time);
-
-                        }
-                    }, hh, mm, true);
-                    timePicker.show();
+                    showPickTime();
                 }
+            }
+        });
+        etTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPickTime();
+            }
+        });
+        swActivity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                stateOfInterface(b);
             }
         });
 
         return v;
+    }
+    public void showPickTime(){
+        final Calendar calendario = Calendar.getInstance();
+        final int hh = calendario.get(Calendar.HOUR_OF_DAY);
+        final int mm = calendario.get(Calendar.MINUTE);
+        TimePickerDialog timePicker = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                String time = String.valueOf(i) + ":" + String.valueOf(i1) + ":00" ;
+                etTime.setText(time);
+
+            }
+        }, hh, mm, true);
+        timePicker.show();
+    }
+    public void showPickDate(){
+        final Calendar calendario = Calendar.getInstance();
+        int yy = calendario.get(Calendar.YEAR);
+        int mm = calendario.get(Calendar.MONTH);
+        int dd = calendario.get(Calendar.DAY_OF_MONTH);
+
+
+        DatePickerDialog datePicker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                String fecha = String.valueOf(year) +"-"+String.valueOf(monthOfYear)
+                        +"-"+String.valueOf(dayOfMonth);
+                etDate.setText(fecha);
+
+            }
+        }, yy, mm, dd);
+
+        datePicker.show();
+    }
+
+    public void stateOfInterface(Boolean flag){
+        etDate.setEnabled(flag);
+        etTime.setEnabled(flag);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

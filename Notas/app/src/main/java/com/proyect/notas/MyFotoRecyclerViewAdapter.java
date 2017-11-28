@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.proyect.notas.Daos.FotoVideo;
 import com.proyect.notas.FotoFragment.OnListFragmentInteractionListener;
-import com.proyect.notas.dummy.DummyContent.DummyItem;
+
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,7 +20,7 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
@@ -71,7 +71,7 @@ public class MyFotoRecyclerViewAdapter extends RecyclerView.Adapter<MyFotoRecycl
         //holder.imageView.setImageBitmap(bitmap);
         File img= new File(mDataset.get(position).getdireccion());
         holder.imageView.setImageBitmap(decodeFile(img));
-        
+
 
 
         holder.textView.setText(mDataset.get(position).getNombre()+"\n"+mDataset.get(position).getdireccion());

@@ -1,19 +1,22 @@
 package com.proyect.notas;
 
+import android.app.Activity;
+import android.app.DialogFragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.proyect.notas.Daos.NotaTarea;
 import com.proyect.notas.NotaTareaFragment.OnListFragmentInteractionListener;
-import com.proyect.notas.dummy.DummyContent.DummyItem;
+
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link } and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
@@ -46,11 +49,20 @@ public class MyNotaTareaRecyclerViewAdapter extends RecyclerView.Adapter<MyNotaT
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onListFragmentInteraction(holder.mItem,false);
                 }
             }
         });
+
+        holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                mListener.onListFragmentInteraction(holder.mItem,true);
+                return false;
+            }
+        });
     }
+
 
     @Override
     public int getItemCount() {
