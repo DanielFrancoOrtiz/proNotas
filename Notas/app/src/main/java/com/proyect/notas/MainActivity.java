@@ -323,6 +323,7 @@ public class MainActivity extends AppCompatActivity
                             }
                         });
                 new DaoImagenVideo(this).Insert(new FotoVideo(0,nombre,path,1));
+                setFragment(2);
                 break;
             case VIDEO:
                 MediaScannerConnection.scanFile(getApplicationContext(), new String[]{path}, null,

@@ -124,6 +124,7 @@ public class addNota extends Fragment {
                         daoNotaTarea.Insert(new NotaTarea(0, etName.getText().toString(), etNote.getText().toString()
                                 , 1, null, null));
                     }
+                    
                 }
             }
         });
