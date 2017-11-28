@@ -12,14 +12,22 @@ public class NotaTarea implements Serializable {
     private int tipo;
     private Date fecha;
     private Time hora;
+    private boolean realizada;
+    private String imagen;
+    private String descripcionImagen;
 
-    public NotaTarea(int id, String titulo, String descripcion, int tipo, Date fecha, Time hora) {
+
+    public NotaTarea(int id, String titulo, String descripcion, int tipo, Date fecha,
+                     Time hora, boolean realizada, String imagen,String descripcionImagen) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.tipo = tipo;
         this.fecha = fecha;
         this.hora = hora;
+        this.realizada = realizada;
+        this.imagen=imagen;
+        this.descripcionImagen = descripcionImagen;
     }
 
     public NotaTarea(String titulo, String descripcion, int tipo) {
@@ -79,5 +87,29 @@ public class NotaTarea implements Serializable {
     @Override
     public String toString() {
         return getTitulo();
+    }
+
+    public boolean isRealizada() {
+        return realizada;
+    }
+
+    public void setRealizada(boolean realizada) {
+        this.realizada = realizada;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    public String getDescripcionImagen() {
+        return descripcionImagen;
+    }
+
+    public void setDescripcionImagen(String descripcionImagen) {
+        this.descripcionImagen = descripcionImagen;
     }
 }

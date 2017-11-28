@@ -124,13 +124,18 @@ public class addNota extends Fragment {
                         DaoNotaTarea daoNotaTarea = new DaoNotaTarea(getContext());
 
                         daoNotaTarea.Insert(new NotaTarea(0, etName.getText().toString(), etNote.getText().toString()
-                                , 2, Date.valueOf(etDate.getText().toString()), Time.valueOf(etTime.getText().toString())));
+                                , 2, Date.valueOf(etDate.getText().toString()),
+                                Time.valueOf(etTime.getText().toString()),
+
+                                false,null,null));
 
                     } else {
                         DaoNotaTarea daoNotaTarea = new DaoNotaTarea(getContext());
                         Toast.makeText(getActivity(), "Nota", Toast.LENGTH_LONG).show();
                         daoNotaTarea.Insert(new NotaTarea(0, etName.getText().toString(), etNote.getText().toString()
-                                , 1, null, null));
+                                , 1, null, null,
+
+                                false,null,null));
                     }
                     
                 }

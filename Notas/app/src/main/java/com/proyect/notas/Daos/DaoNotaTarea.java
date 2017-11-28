@@ -27,6 +27,9 @@ public class DaoNotaTarea {
         cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[3],nota.getTipo());
         cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[4],nota.getFecha()!= null ? nota.getFecha().toString():null);
         cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[5],nota.getHora()!=null ? nota.getHora().toString() : null);
+        cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[6],nota.isRealizada());
+        cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[7],nota.getImagen());
+        cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[8],nota.getDescripcionImagen());
         return database.insert(MiSQLiteOpenHelper.TABLE_NOTAS_NAME,null,cv);
     }
     public long Update(NotaTarea nota){
@@ -37,6 +40,9 @@ public class DaoNotaTarea {
         cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[3],nota.getTipo());
         cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[4],nota.getFecha()!= null ? nota.getFecha().toString():null);
         cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[5],nota.getHora()!=null ? nota.getHora().toString() : null);
+        cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[6],nota.isRealizada());
+        cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[7],nota.getImagen());
+        cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[8],nota.getDescripcionImagen());
 
         return database.update(MiSQLiteOpenHelper.TABLE_NOTAS_NAME,cv,"_id = ?",new String[]{String.valueOf(nota.getId())});
     }
@@ -58,7 +64,8 @@ public class DaoNotaTarea {
                         cur.getString(2),
                         cur.getInt(3),
                         cur.getString(4)!=null ? Date.valueOf(cur.getString(4)) : null,
-                        cur.getString(5)!=null ? Time.valueOf(cur.getString(5)) : null);
+                        cur.getString(5)!=null ? Time.valueOf(cur.getString(5)) : null,
+                        Boolean.valueOf(cur.getString(6)),cur.getString(7),cur.getString(8));
                 lista.add(not);
             }while (cur.moveToNext());
         }
@@ -69,8 +76,14 @@ public class DaoNotaTarea {
         Cursor cur = database.query(MiSQLiteOpenHelper.TABLE_NOTAS_NAME,MiSQLiteOpenHelper.COLUMNS_NOTAS
                 ,"_id = ?",new String[]{String.valueOf(id)},null,null,null);
         if(cur.moveToFirst()){
-            return new NotaTarea(cur.getInt(0),cur.getString(1),cur.getString(2),
-                    cur.getInt(3), Date.valueOf(cur.getString(4)), Time.valueOf(cur.getString(5)));
+            return new NotaTarea(
+                    cur.getInt(0),
+                    cur.getString(1),
+                    cur.getString(2),
+                    cur.getInt(3),
+                    cur.getString(4)!=null ? Date.valueOf(cur.getString(4)) : null,
+                    cur.getString(5)!=null ? Time.valueOf(cur.getString(5)) : null,
+                    Boolean.valueOf(cur.getString(6)),cur.getString(7),cur.getString(8));
         }
         return null;
 

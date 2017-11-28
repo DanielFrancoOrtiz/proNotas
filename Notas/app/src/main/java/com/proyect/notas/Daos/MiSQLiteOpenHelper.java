@@ -14,7 +14,7 @@ public class MiSQLiteOpenHelper extends SQLiteOpenHelper {
     public static final String TABLE_IMAG_VIDEO_NAME = "imagenesVideos";
 
 
-    public static final String[] COLUMNS_NOTAS = {"_id","titulo","descripcion","tipo","fecha","hora"};
+    public static final String[] COLUMNS_NOTAS = {"_id","titulo","descripcion","tipo","fecha","hora","realizada","imagen","descripcionImagen"};
     public static final String[] COLUMNS_IMAG_VIDEO = {"_id","nombre","direccion","tipo"};
 
     private static final String TABLE_NOTAS = "create table " + TABLE_NOTAS_NAME +" ("
@@ -23,7 +23,10 @@ public class MiSQLiteOpenHelper extends SQLiteOpenHelper {
             + COLUMNS_NOTAS[2] + " text  null,"
             + COLUMNS_NOTAS[3] + " int not null,"
             + COLUMNS_NOTAS[4] + " date null,"
-            + COLUMNS_NOTAS[5] + " time null );";
+            + COLUMNS_NOTAS[5] + " time null,"
+            + COLUMNS_NOTAS[6] + " boolean null,"
+            + COLUMNS_NOTAS[7] + " text null,"
+            + COLUMNS_NOTAS[8] + " text null );";
 
     private static final String TABLE_IMAG_VIDEO = "create table "+  TABLE_IMAG_VIDEO_NAME + "("
             + COLUMNS_IMAG_VIDEO[0] + " integer primary key autoincrement, "
