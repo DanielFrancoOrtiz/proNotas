@@ -1,10 +1,12 @@
 package com.proyect.notas.Daos;
 
+import java.io.Serializable;
+
 /**
  * Created by Franco on 20/11/2017.
  */
 
-public class FotoVideo {
+public class FotoVideo implements Serializable {
     int id;
     String nombre;
     String direccion;

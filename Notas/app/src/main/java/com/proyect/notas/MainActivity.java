@@ -3,6 +3,7 @@ package com.proyect.notas;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -50,7 +51,8 @@ import static com.proyect.notas.R.string.switch1;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, addNota.OnFragmentInteractionListener,
-        NotaTareaFragment.OnListFragmentInteractionListener, FotoFragment.OnListFragmentInteractionListener,VideoFragment.OnListFragmentInteractionListener  {
+        NotaTareaFragment.OnListFragmentInteractionListener, FotoFragment.OnListFragmentInteractionListener,
+        VideoFragment.OnListFragmentInteractionListener,viewVideo.OnFragmentInteractionListener  {
 
     /*
     Esta variable se utilizara para saber cual de las opciones del menu
@@ -456,6 +458,15 @@ public class MainActivity extends AppCompatActivity
         openInGallery(item.getdireccion());
     }
 
-
-
+    @Override
+    public void onListFragmentInteraction(FotoVideo item, boolean flag) {
+        //this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        FragmentManager fragmentManager;
+        FragmentTransaction fragmentTransaction;
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        viewVideo v = viewVideo.newInstance(item);
+        fragmentTransaction.replace(R.id.fragment, v);
+        fragmentTransaction.commit();
+    }
 }

@@ -67,7 +67,9 @@ public class VideoFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyVideoRecyclerViewAdapter(new DaoImagenVideo(getActivity()).getAll(), mListener));
+            if(new DaoImagenVideo(getActivity()).getAllFotos()!=null) {
+                recyclerView.setAdapter(new MyVideoRecyclerViewAdapter(new DaoImagenVideo(getActivity()).getAllVideos(), mListener));
+            }
         }
         return view;
     }
@@ -102,6 +104,6 @@ public class VideoFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(FotoVideo item);
+        void onListFragmentInteraction(FotoVideo item,boolean flag);
     }
 }

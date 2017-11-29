@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -40,11 +42,12 @@ public class MyVideoRecyclerViewAdapter extends RecyclerView.Adapter<MyVideoRecy
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        /*holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getId());
+        holder.mItem = mValues.get(position);
+        holder.textView.setText(holder.mItem.getNombre());
+        /*holder.mIdView.setText(mValues.get(position).getId());
         holder.mContentView.setText(mValues.get(position).getdireccion());
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
+        holder..setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
@@ -54,6 +57,14 @@ public class MyVideoRecyclerViewAdapter extends RecyclerView.Adapter<MyVideoRecy
                 }
             }
         });*/
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onListFragmentInteraction(holder.mItem,true);
+            }
+        });
+
+
     }
 
     @Override
@@ -63,14 +74,15 @@ public class MyVideoRecyclerViewAdapter extends RecyclerView.Adapter<MyVideoRecy
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public VideoView videoView;
+        public ImageView imageView;
         public TextView textView;
-
+        public FotoVideo mItem;
         public ViewHolder(View v) {
             super(v);
 
-            videoView = (VideoView) v.findViewById(R.id.videoView);
+            imageView = (ImageView) v.findViewById(R.id.imageView2);
             textView = (TextView) v.findViewById(R.id.textView2);
         }
+
     }
 }
