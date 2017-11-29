@@ -72,6 +72,21 @@ public class DaoImagenVideo {
         return lista;
     }
 
+    public List<FotoVideo> getAllVideos(){
+        List<FotoVideo> lista = null;
+        Cursor cur = database.query(MiSQLiteOpenHelper.TABLE_IMAG_VIDEO_NAME,MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO
+                ,"tipo = ?",new String[]{String.valueOf(2)},null,null,null);
+        if(cur.moveToFirst()){
+            lista = new ArrayList<>();
+            do{
+                FotoVideo fot =  new FotoVideo(cur.getInt(0),
+                        cur.getString(1),cur.getString(2),cur.getInt(3));
+                lista.add(fot);
+            }while (cur.moveToNext());
+        }
+        return lista;
+    }
+
 
     public FotoVideo getNotaTarea(int id){
         Cursor cur = database.query(MiSQLiteOpenHelper.TABLE_IMAG_VIDEO_NAME,MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO

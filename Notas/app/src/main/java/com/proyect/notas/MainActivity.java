@@ -373,6 +373,7 @@ public class MainActivity extends AppCompatActivity
                                 Log.i("path",path);
                             }
                         });
+                new DaoImagenVideo(this).Insert(new FotoVideo(0,nombre,path,2));
                 break; 
             case AUDIO:
                 MediaScannerConnection.scanFile(getApplicationContext(), new String[]{path}, null,
