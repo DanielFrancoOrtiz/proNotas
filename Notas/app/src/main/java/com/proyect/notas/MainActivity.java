@@ -50,7 +50,7 @@ import static com.proyect.notas.R.string.switch1;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, addNota.OnFragmentInteractionListener,
-        NotaTareaFragment.OnListFragmentInteractionListener, FotoFragment.OnListFragmentInteractionListener  {
+        NotaTareaFragment.OnListFragmentInteractionListener, FotoFragment.OnListFragmentInteractionListener,VideoFragment.OnListFragmentInteractionListener  {
 
     /*
     Esta variable se utilizara para saber cual de las opciones del menu
@@ -202,6 +202,11 @@ public class MainActivity extends AppCompatActivity
                 fragmentTransaction.commit();
                 break;
             case 3:
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                VideoFragment video = new VideoFragment();
+                fragmentTransaction.replace(R.id.fragment, video);
+                fragmentTransaction.commit();
                 break;
             case 4:
                 fragmentManager = getSupportFragmentManager();
@@ -449,4 +454,7 @@ public class MainActivity extends AppCompatActivity
     public void onListFragmentInteraction(FotoVideo item) {
         openInGallery(item.getdireccion());
     }
+
+
+
 }
