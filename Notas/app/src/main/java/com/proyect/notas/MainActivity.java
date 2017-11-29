@@ -46,9 +46,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static com.proyect.notas.R.string.deleting_message;
+import static com.proyect.notas.R.string.switch1;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, addNota.OnFragmentInteractionListener,addVideo.OnFragmentInteractionListener,addPhoto.OnFragmentInteractionListener,
+        implements NavigationView.OnNavigationItemSelectedListener, addNota.OnFragmentInteractionListener,
         NotaTareaFragment.OnListFragmentInteractionListener, FotoFragment.OnListFragmentInteractionListener  {
 
     /*
@@ -201,7 +202,6 @@ public class MainActivity extends AppCompatActivity
                 fragmentTransaction.commit();
                 break;
             case 3:
-                
                 break;
             case 4:
                 fragmentManager = getSupportFragmentManager();
@@ -213,18 +213,8 @@ public class MainActivity extends AppCompatActivity
             case 5:
                 break;
             case 6:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                addPhoto addPhoto = new addPhoto();
-                fragmentTransaction.replace(R.id.fragment, addPhoto);
-                fragmentTransaction.commit();
                 break;
             case 7:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                addVideo addVideo = new addVideo();
-                fragmentTransaction.replace(R.id.fragment, addVideo);
-                fragmentTransaction.commit();
                 break;
             case 8:
                 fragmentManager = getSupportFragmentManager();
@@ -243,11 +233,37 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onListFragmentInteraction(final NotaTarea item, boolean flag) {
         if(flag){
+
             final DaoNotaTarea daoNotaTarea = new DaoNotaTarea(this);
-            AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-            alertDialog.setTitle(getString(R.string.title_dialog));
-            alertDialog.setMessage(getString(R.string.deleting_message));
-            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL", new DialogInterface.OnClickListener() {
+            final AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+                    MainActivity.this).setTitle(getString(R.string.title_dialog)).setItems(R.array.options,
+            new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    switch(i){
+                        case 0:
+                            daoNotaTarea.Delete(item.getId());
+                            setFragment(4);
+                            dialogInterface.dismiss();
+                            break;
+                        case 1:
+                            FragmentManager fragmentManager;
+                            FragmentTransaction fragmentTransaction;
+                            fragmentManager = getSupportFragmentManager();
+                            fragmentTransaction = fragmentManager.beginTransaction();
+                            addNota nota = addNota.newInstance(item);
+                            fragmentTransaction.replace(R.id.fragment, nota);
+                            fragmentTransaction.commit();
+                            dialogInterface.dismiss();
+                            break;
+                    }
+                }
+            });
+
+            //alertDialog.setTitle(getString(R.string.title_dialog));
+            //alertDialog.setMessage(getString(R.string.deleting_message));
+
+            /*alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     dialogInterface.dismiss();
@@ -261,15 +277,11 @@ public class MainActivity extends AppCompatActivity
                             dialog.dismiss();
                         }
                     });
+            */
+
             alertDialog.show();
         }else{
-            FragmentManager fragmentManager;
-            FragmentTransaction fragmentTransaction;
-            fragmentManager = getSupportFragmentManager();
-            fragmentTransaction = fragmentManager.beginTransaction();
-            addNota nota = addNota.newInstance(item);
-            fragmentTransaction.replace(R.id.fragment, nota);
-            fragmentTransaction.commit();
+
         }
     }
 

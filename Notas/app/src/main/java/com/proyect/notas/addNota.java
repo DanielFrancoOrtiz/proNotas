@@ -106,6 +106,7 @@ public class addNota extends Fragment {
                 stateOfInterface(false);
             }
 
+
         }
         if(swActivity.isChecked()){
             stateOfInterface(true);
@@ -117,7 +118,24 @@ public class addNota extends Fragment {
             @Override
             public void onClick(View view) {
                 if(getArguments()!=null) {
+                    if (swActivity.isChecked()) {
+                        Toast.makeText(getActivity(), "Actividad", Toast.LENGTH_LONG).show();
+                        DaoNotaTarea daoNotaTarea = new DaoNotaTarea(getContext());
 
+                        daoNotaTarea.Update(new NotaTarea(mParam1.getId(), etName.getText().toString(), etNote.getText().toString()
+                                , 2, Date.valueOf(etDate.getText().toString()),
+                                Time.valueOf(etTime.getText().toString()),
+
+                                false,null,null));
+
+                    } else {
+                        DaoNotaTarea daoNotaTarea = new DaoNotaTarea(getContext());
+                        Toast.makeText(getActivity(), "Nota", Toast.LENGTH_LONG).show();
+                        daoNotaTarea.Update(new NotaTarea(mParam1.getId(), etName.getText().toString(), etNote.getText().toString()
+                                , 1, null, null,
+
+                                false,null,null));
+                    }
                 }else{
                     if (swActivity.isChecked()) {
                         Toast.makeText(getActivity(), "Actividad", Toast.LENGTH_LONG).show();

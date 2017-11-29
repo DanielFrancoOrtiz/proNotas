@@ -38,10 +38,11 @@ public class MyNotaTareaRecyclerViewAdapter extends RecyclerView.Adapter<MyNotaT
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(String.valueOf( mValues.get(position).getId()));
         holder.mContentView.setText(mValues.get(position).getTitulo());
+
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,7 +50,14 @@ public class MyNotaTareaRecyclerViewAdapter extends RecyclerView.Adapter<MyNotaT
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem,false);
+                    //mListener.onListFragmentInteraction(holder.mItem,false);
+                    if(holder.mDescriptionView.getText()!=""){
+                        holder.mDescriptionView.setEnabled(false);
+                        holder.mDescriptionView.setText("");
+                    }else {
+                        holder.mDescriptionView.setText(mValues.get(position).getDescripcion());
+                        holder.mDescriptionView.setEnabled(true);
+                    }
                 }
             }
         });
@@ -73,6 +81,7 @@ public class MyNotaTareaRecyclerViewAdapter extends RecyclerView.Adapter<MyNotaT
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
+        public final TextView mDescriptionView;
         public NotaTarea mItem;
 
         public ViewHolder(View view) {
@@ -80,6 +89,8 @@ public class MyNotaTareaRecyclerViewAdapter extends RecyclerView.Adapter<MyNotaT
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.id);
             mContentView = (TextView) view.findViewById(R.id.content);
+            mDescriptionView = (TextView) view.findViewById(R.id.description);
+            mDescriptionView.setEnabled(false);
         }
 
         @Override
