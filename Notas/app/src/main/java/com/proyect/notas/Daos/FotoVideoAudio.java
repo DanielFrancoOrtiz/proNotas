@@ -18,6 +18,7 @@ public class FotoVideoAudio implements Serializable {
         this.nombre = nombre;
         this.direccion = direccion;
         this.tipo=tipo;
+        this.descripcion=descripcion;
     }
 
     public int getId() {

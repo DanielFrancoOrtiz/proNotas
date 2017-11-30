@@ -115,6 +115,7 @@ public class MyFotoRecyclerViewAdapter extends RecyclerView.Adapter<MyFotoRecycl
                                 Toast.makeText(v.getContext(),"Descripcion agregada: " ,Toast.LENGTH_LONG).show();
 
                                 holder.textView.setText(mDataset.get(position).getNombre()+"\n"+mDataset.get(position).getDescripcion());
+                                new DaoImagenVideoAudio(v.getContext()).Update(mDataset.get(position));
                             }
 
                         });
