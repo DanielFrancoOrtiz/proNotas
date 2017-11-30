@@ -1,7 +1,9 @@
 package com.proyect.notas;
 
+import android.app.AlertDialog;
 import android.content.Context;
 
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.AlertDialogLayout;
@@ -9,8 +11,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.proyect.notas.Daos.FotoVideoAudio;
 import com.proyect.notas.FotoFragment.OnListFragmentInteractionListener;
 
@@ -62,7 +68,7 @@ public class MyFotoRecyclerViewAdapter extends RecyclerView.Adapter<MyFotoRecycl
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         // - Se recupera el elemento del vector con position.
         //holder.imageView.setContentDescription(mDataset.get(position).getdireccion());
         //Aqui se deberia poder cargar la imagen en el imageView de arriva.
@@ -75,7 +81,7 @@ public class MyFotoRecyclerViewAdapter extends RecyclerView.Adapter<MyFotoRecycl
 
 
 
-        holder.textView.setText(mDataset.get(position).getNombre()+"\n"+mDataset.get(position).getdireccion());
+        holder.textView.setText(mDataset.get(position).getNombre()+"\n"+mDataset.get(position).getDescripcion());
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,9 +91,44 @@ public class MyFotoRecyclerViewAdapter extends RecyclerView.Adapter<MyFotoRecycl
         });
         holder.imageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View v) {
+            public boolean onLongClick(final View v) {
                 //Investigar AlertDialog para tex
-                mDataset.get(position).setDescripcion("Nueva descripcion");
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(v.getContext());
+                alertDialog.setTitle("Descripcion");
+                alertDialog.setMessage("Introduce una descripcion");
+
+                final EditText input = new EditText(v.getContext());
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                input.setLayoutParams(lp);
+                alertDialog.setView(input);
+                alertDialog.setPositiveButton("YES",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+                               //Aqui se asigna el texto del input
+                                mDataset.get(position).setDescripcion(input.getText().toString());
+                                Toast.makeText(v.getContext(),"Descripcion agregada",Toast.LENGTH_LONG).show();
+
+                                holder.textView.setText(mDataset.get(position).getNombre()+"\n"+
+                                mDataset.get(position).getDescripcion());
+                            }
+
+                        });
+
+                alertDialog.setNegativeButton("NO",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+
+
+
+                alertDialog.show();
+
                 return false;
             }
         });
