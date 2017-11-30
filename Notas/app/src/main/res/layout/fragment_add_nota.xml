@@ -92,11 +92,12 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="60dp"
             android:text="Realizada"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.451"
+            app:layout_constraintHorizontal_bias="0.383"
             app:layout_constraintStart_toEndOf="@+id/ivAddNota"
-            tools:layout_editor_absoluteY="327dp" />
+            app:layout_constraintTop_toTopOf="@+id/etDate" />
 
         <ImageView
             android:id="@+id/ivAddNota"

@@ -12,13 +12,13 @@ public class NotaTarea implements Serializable {
     private int tipo;
     private Date fecha;
     private Time hora;
-    private boolean realizada;
+    private int realizada;
     private String imagen;
     private String descripcionImagen;
 
 
     public NotaTarea(int id, String titulo, String descripcion, int tipo, Date fecha,
-                     Time hora, boolean realizada, String imagen,String descripcionImagen) {
+                     Time hora, int realizada, String imagen,String descripcionImagen) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -89,11 +89,11 @@ public class NotaTarea implements Serializable {
         return getTitulo();
     }
 
-    public boolean isRealizada() {
+    public int getRealizada() {
         return realizada;
     }
 
-    public void setRealizada(boolean realizada) {
+    public void setRealizada(int realizada) {
         this.realizada = realizada;
     }
 

@@ -82,6 +82,7 @@ public class addNota extends Fragment {
 
         if (getArguments() != null) {
             mParam1 = (NotaTarea) getArguments().getSerializable(ARG_PARAM1);
+            Toast.makeText(getActivity(),mParam1.getRealizada()==1?"Yes :V":"No :V",Toast.LENGTH_LONG);
         }
     }
     private static final int PHOTO_SELECTED = 1;
@@ -111,18 +112,15 @@ public class addNota extends Fragment {
         swActivity = (Switch) v.findViewById(R.id.swActivity);
         swRealizada =(Switch) v.findViewById(R.id.swRealizada);
         ivAddNota =(ImageView) v.findViewById(R.id.ivAddNota);
-        swRealizada.setEnabled(false);
+
 
         if(getArguments()!= null){
-            swRealizada.setEnabled(true);
+            path = mParam1.getImagen();
+
             etName.setText(mParam1.getTitulo());
             etNote.setText(mParam1.getDescripcion());
-            if (mParam1.isRealizada()){
-                swRealizada.setChecked(true);
-                Toast.makeText(getActivity(),":v",Toast.LENGTH_LONG);
-            }else {
-                Toast.makeText(getActivity(),":'v",Toast.LENGTH_LONG);
-            }
+
+            swRealizada.setChecked(mParam1.getRealizada()==1 ? true:false);
             if(mParam1.getTipo()==2){
                 swActivity.setChecked(true);
                 etDate.setText(mParam1.getFecha().toString());
@@ -135,22 +133,18 @@ public class addNota extends Fragment {
                 Bitmap bitmap = BitmapFactory.decodeFile(mParam1.getImagen());
                 ivAddNota.setImageBitmap(bitmap);
             }
-            if (mParam1.isRealizada()){
-                swRealizada.setChecked(true);
-            }else{
-                swRealizada.setChecked(false);
-
-            }
-
-
-
         }
+
         if(swActivity.isChecked()){
             stateOfInterface(true);
         }else{
             stateOfInterface(false);
         }
-
+        if (mParam1.getRealizada()==1){
+            swRealizada.setChecked(true);
+        }else{
+            swRealizada.setChecked(false);
+        }
 
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,52 +153,43 @@ public class addNota extends Fragment {
                     if (swActivity.isChecked()) {
                         if(swRealizada.isChecked()) {
 
-                            DaoNotaTarea daoNotaTarea = new DaoNotaTarea(getContext());
-
-                            daoNotaTarea.Update(new NotaTarea(mParam1.getId(), etName.getText().toString(),
+                            new DaoNotaTarea(getContext()).Update(new NotaTarea(mParam1.getId(), etName.getText().toString(),
                                     etNote.getText().toString()
                                     , 2, Date.valueOf(etDate.getText().toString()),
                                     Time.valueOf(etTime.getText().toString()),
 
-                                    true, mParam1.getImagen(), mParam1.getDescripcionImagen()));
+                                    1, mParam1.getImagen(), mParam1.getDescripcionImagen()));
                             Toast.makeText(getActivity(), "Actividad realizada", Toast.LENGTH_LONG).show();
                         }else {
                             Toast.makeText(getActivity(), "Actividad", Toast.LENGTH_LONG).show();
-                            DaoNotaTarea daoNotaTarea = new DaoNotaTarea(getContext());
-
-                            daoNotaTarea.Update(new NotaTarea(mParam1.getId(), etName.getText().toString(), etNote.getText().toString()
+                            new DaoNotaTarea(getContext()).Update(new NotaTarea(mParam1.getId(), etName.getText().toString(), etNote.getText().toString()
                                     , 2, Date.valueOf(etDate.getText().toString()),
                                     Time.valueOf(etTime.getText().toString()),
 
-                                    false, mParam1.getImagen(), mParam1.getDescripcionImagen()));
+                                    swRealizada.isChecked()?1:0, mParam1.getImagen(), mParam1.getDescripcionImagen()));
                         }
 
                     } else {
-                        DaoNotaTarea daoNotaTarea = new DaoNotaTarea(getContext());
-                        Toast.makeText(getActivity(), "Nota", Toast.LENGTH_LONG).show();
-                        daoNotaTarea.Update(new NotaTarea(mParam1.getId(), etName.getText().toString(), etNote.getText().toString()
+                        new DaoNotaTarea(getContext()).Update(new NotaTarea(mParam1.getId(), etName.getText().toString(), etNote.getText().toString()
                                 , 1, null, null,
 
-                                false,mParam1.getImagen(),mParam1.getDescripcionImagen()));
+                                swRealizada.isChecked()?1:0,mParam1.getImagen(),mParam1.getDescripcionImagen()));
                     }
                 }else{
                     if (swActivity.isChecked()) {
                         Toast.makeText(getActivity(), "Actividad", Toast.LENGTH_LONG).show();
-                        DaoNotaTarea daoNotaTarea = new DaoNotaTarea(getContext());
-
-                        daoNotaTarea.Insert(new NotaTarea(0, etName.getText().toString(), etNote.getText().toString()
+                        new DaoNotaTarea(getContext()).Insert(new NotaTarea(0, etName.getText().toString(), etNote.getText().toString()
                                 , 2, Date.valueOf(etDate.getText().toString()),
                                 Time.valueOf(etTime.getText().toString()),
 
-                                swRealizada.isChecked(),path,null));
+                                swRealizada.isChecked()?1:0,path,null));
 
                     } else {
-                        DaoNotaTarea daoNotaTarea = new DaoNotaTarea(getContext());
-                        Toast.makeText(getActivity(), "Nota", Toast.LENGTH_LONG).show();
-                        daoNotaTarea.Insert(new NotaTarea(0, etName.getText().toString(), etNote.getText().toString()
+                    new DaoNotaTarea(getContext()).Insert(new NotaTarea(0, etName.getText().toString(), etNote.getText().toString()
                                 , 1, null, null,
 
-                                swRealizada.isChecked(),path,null));
+                            swRealizada.isChecked()?1:0,path,null));
+                        Toast.makeText(getActivity(), "Nota", Toast.LENGTH_LONG).show();
                     }
                     
                 }
