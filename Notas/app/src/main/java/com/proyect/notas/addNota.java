@@ -4,9 +4,15 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +25,12 @@ import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.proyect.notas.Daos.DaoImagenVideoAudio;
 import com.proyect.notas.Daos.DaoNotaTarea;
+import com.proyect.notas.Daos.FotoVideoAudio;
 import com.proyect.notas.Daos.NotaTarea;
 
+import java.io.File;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.Calendar;
@@ -84,7 +93,10 @@ public class addNota extends Fragment {
     Switch swActivity;
     Switch swRealizada;
     ImageView ivAddNota;
-    int year,mes,dia;
+
+    String nombre;
+    String path;
+    File archivoAG;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -119,7 +131,16 @@ public class addNota extends Fragment {
                 swActivity.setChecked(false);
                 stateOfInterface(false);
             }
+            if (mParam1.getImagen()!=null){
+                Bitmap bitmap = BitmapFactory.decodeFile(mParam1.getImagen());
+                ivAddNota.setImageBitmap(bitmap);
+            }
+            if (mParam1.isRealizada()){
+                swRealizada.setChecked(true);
+            }else{
+                swRealizada.setChecked(false);
 
+            }
 
 
 
@@ -174,7 +195,7 @@ public class addNota extends Fragment {
                                 , 2, Date.valueOf(etDate.getText().toString()),
                                 Time.valueOf(etTime.getText().toString()),
 
-                                false,null,null));
+                                swRealizada.isChecked(),path,null));
 
                     } else {
                         DaoNotaTarea daoNotaTarea = new DaoNotaTarea(getContext());
@@ -182,7 +203,7 @@ public class addNota extends Fragment {
                         daoNotaTarea.Insert(new NotaTarea(0, etName.getText().toString(), etNote.getText().toString()
                                 , 1, null, null,
 
-                                false,null,null));
+                                swRealizada.isChecked(),path,null));
                     }
                     
                 }
@@ -227,7 +248,34 @@ public class addNota extends Fragment {
         ivAddNota.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"imgNotas");
+        /*
+        se verifica si la carpeta ya existe.
+            si no existe se crea
+        * */
+                boolean existe = file.exists();
+                if (!existe){
+                    existe = file.mkdirs();
+                }
+                if (existe) {
+            /*
+            * se crea el nombre que tendra la imagen
+            * */
+                    Long consecutivo = System.currentTimeMillis() / 1000;
+                    nombre = consecutivo.toString() + ".jpg";
+                    //se asigna la ruta en que sera guardada
+                    path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) +
+                            File.separator + "imgNotas" + File.separator + nombre;
+
+                    archivoAG = new File(path);
+                    //Se crea el intent que permitira utilizar la camara del celular
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    //se le asigna el archivo que representara la imagen
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(archivoAG));
+                    startActivityForResult(intent, 1);
+                }
             }
+
         });
         return v;
     }
@@ -312,5 +360,23 @@ public class addNota extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1 &&
+                resultCode == getActivity().RESULT_OK){
+            MediaScannerConnection.scanFile(getContext(), new String[]{path}, null,
+                    new MediaScannerConnection.OnScanCompletedListener() {
+                        @Override
+                        public void onScanCompleted(String path, Uri uri) {
+                            Log.i("path",path);
+                        }
+                    });
+            new DaoImagenVideoAudio(getContext()).Insert(new FotoVideoAudio(0,nombre,path,1));
+            Bitmap bitmap = BitmapFactory.decodeFile(path);
+            ivAddNota.setImageBitmap(bitmap);
+            //ivAddNota.setImageBitmap((Bitmap) data.getExtras().get("data"));
+        }
 
+    }
 }
