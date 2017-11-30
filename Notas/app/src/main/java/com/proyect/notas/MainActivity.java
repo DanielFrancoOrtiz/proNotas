@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.Toast;
 
 import com.proyect.notas.Daos.DaoImagenVideo;
@@ -52,7 +54,8 @@ import static com.proyect.notas.R.string.switch1;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, addNota.OnFragmentInteractionListener,
         NotaTareaFragment.OnListFragmentInteractionListener, FotoFragment.OnListFragmentInteractionListener,
-        VideoFragment.OnListFragmentInteractionListener,viewVideo.OnFragmentInteractionListener  {
+        VideoFragment.OnListFragmentInteractionListener,viewVideo.OnFragmentInteractionListener,
+        audioRecorderFragment.OnFragmentInteractionListener{
 
     /*
     Esta variable se utilizara para saber cual de las opciones del menu
@@ -81,6 +84,7 @@ public class MainActivity extends AppCompatActivity
                 * */
                 switch (opcion){
                     case 1:
+                        Audio();
                         break;
                     case 2:
                        //startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),1001);
@@ -340,6 +344,12 @@ public class MainActivity extends AppCompatActivity
         startActivityForResult(intent, VIDEO);
     }
     public void Audio(){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        audioRecorderFragment audioRecorder = new audioRecorderFragment();
+        fragmentTransaction.replace(R.id.fragment, audioRecorder);
+        fragmentTransaction.commit();
+        /*
         Intent intent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
         Long consecutivo = System.currentTimeMillis()/1000;
         nombre = consecutivo.toString()+".mp4";
@@ -347,7 +357,7 @@ public class MainActivity extends AppCompatActivity
                 File.separator+"imgNotas"+File.separator+nombre;
         archivoAG = new File(path);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(archivoAG));
-        startActivityForResult(intent, AUDIO);
+        startActivityForResult(intent, AUDIO);*/
     }
 
 
@@ -378,6 +388,10 @@ public class MainActivity extends AppCompatActivity
                 new DaoImagenVideo(this).Insert(new FotoVideo(0,nombre,path,2));
                 break; 
             case AUDIO:
+                Uri uri = data.getData();
+                Toast.makeText(this, uri != null ? uri.toString() : null,Toast.LENGTH_LONG+Toast.LENGTH_LONG);
+                MediaPlayer mediaPlayer = MediaPlayer.create(this, uri);
+                mediaPlayer.start();
                 MediaScannerConnection.scanFile(getApplicationContext(), new String[]{path}, null,
                         new MediaScannerConnection.OnScanCompletedListener() {
                             @Override
