@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +24,9 @@ public class DaoImagenVideoAudio {
 
     public long Insert(FotoVideoAudio obj){
         ContentValues cv = new ContentValues();
+
         cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[1],obj.getNombre());
-        cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[2],obj.getdireccion());
+        cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[2],obj.getDireccion());
         cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[3],obj.getTipo());
         cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[4], obj.getDescripcion());
 
@@ -34,10 +36,10 @@ public class DaoImagenVideoAudio {
         ContentValues cv = new ContentValues();
         cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[0],obj.getId());
         cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[1],obj.getNombre());
-        cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[2],obj.getdireccion());
+        cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[2],obj.getDireccion());
         cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[3],obj.getTipo());
         cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[4], obj.getDescripcion());
-        return database.update(MiSQLiteOpenHelper.TABLE_NOTAS_NAME,cv,"_id = ?",new String[]{String.valueOf(obj.getId())});
+        return database.update(MiSQLiteOpenHelper.TABLE_IMAG_VIDEO_NAME,cv,"_id = ?",new String[]{String.valueOf(obj.getId())});
     }
     public long Delete(int id){
         return database.delete(MiSQLiteOpenHelper.TABLE_IMAG_VIDEO_NAME,"_id = ?",new String[]{String.valueOf(id)});

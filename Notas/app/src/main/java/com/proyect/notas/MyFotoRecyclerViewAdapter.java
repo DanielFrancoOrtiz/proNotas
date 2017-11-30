@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.proyect.notas.Daos.DaoImagenVideoAudio;
 import com.proyect.notas.Daos.FotoVideoAudio;
 import com.proyect.notas.FotoFragment.OnListFragmentInteractionListener;
 
@@ -76,7 +77,7 @@ public class MyFotoRecyclerViewAdapter extends RecyclerView.Adapter<MyFotoRecycl
         //List<FotoVideoAudio> lista = da.getAllFotos();
         //Bitmap bitmap = BitmapFactory.decodeFile(lista.get(position).getdireccion());
         //holder.imageView.setImageBitmap(bitmap);
-        File img= new File(mDataset.get(position).getdireccion());
+        File img= new File(mDataset.get(position).getDireccion());
         holder.imageView.setImageBitmap(decodeFile(img));
 
 
@@ -106,14 +107,14 @@ public class MyFotoRecyclerViewAdapter extends RecyclerView.Adapter<MyFotoRecycl
                 alertDialog.setPositiveButton("YES",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-
-
                                //Aqui se asigna el texto del input
-                                mDataset.get(position).setDescripcion(input.getText().toString());
-                                Toast.makeText(v.getContext(),"Descripcion agregada",Toast.LENGTH_LONG).show();
 
-                                holder.textView.setText(mDataset.get(position).getNombre()+"\n"+
-                                mDataset.get(position).getDescripcion());
+                                mDataset.get(position).setDescripcion(input.getText().toString());
+                                new DaoImagenVideoAudio(v.getContext()).Update(mDataset.get(position));
+
+                                Toast.makeText(v.getContext(),"Descripcion agregada: " ,Toast.LENGTH_LONG).show();
+
+                                holder.textView.setText(mDataset.get(position).getNombre()+"\n"+mDataset.get(position).getDescripcion());
                             }
 
                         });

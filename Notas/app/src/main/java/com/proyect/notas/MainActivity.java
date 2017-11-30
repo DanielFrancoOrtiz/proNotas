@@ -458,7 +458,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(FotoVideoAudio item) {
-        openInGallery(item.getdireccion());
+        openInGallery(item.getDireccion());
     }
 
     @Override

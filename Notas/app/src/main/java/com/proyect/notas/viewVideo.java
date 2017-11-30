@@ -79,7 +79,7 @@ public class viewVideo extends Fragment {
 
         try {
             // Asigna la URI del vídeo que será reproducido a la vista.
-            videoView.setVideoPath(mParam1.getdireccion());
+            videoView.setVideoPath(mParam1.getDireccion());
             // Se asigna el foco a la VideoView.
             videoView.requestFocus();
         } catch (Exception e) {

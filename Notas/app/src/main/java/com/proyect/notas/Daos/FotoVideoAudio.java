@@ -32,11 +32,11 @@ public class FotoVideoAudio implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getdireccion() {
+    public String getDireccion() {
         return direccion;
     }
 
-    public void setdireccion(String direccion) {
+    public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
 
