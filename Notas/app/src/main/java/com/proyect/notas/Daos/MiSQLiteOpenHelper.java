@@ -15,7 +15,7 @@ public class MiSQLiteOpenHelper extends SQLiteOpenHelper {
 
 
     public static final String[] COLUMNS_NOTAS = {"_id","titulo","descripcion","tipo","fecha","hora","realizada","imagen","descripcionImagen"};
-    public static final String[] COLUMNS_IMAG_VIDEO = {"_id","nombre","direccion","tipo"};
+    public static final String[] COLUMNS_IMAG_VIDEO = {"_id","nombre","direccion","tipo","descripcion"};
 
     private static final String TABLE_NOTAS = "create table " + TABLE_NOTAS_NAME +" ("
             + COLUMNS_NOTAS[0] + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -32,7 +32,8 @@ public class MiSQLiteOpenHelper extends SQLiteOpenHelper {
             + COLUMNS_IMAG_VIDEO[0] + " integer primary key autoincrement, "
             + COLUMNS_IMAG_VIDEO[1] + " varchar(30) not null, "
             + COLUMNS_IMAG_VIDEO[2] + " text not null,"
-            + COLUMNS_IMAG_VIDEO[3] + " int not null);";
+            + COLUMNS_IMAG_VIDEO[3] + " int not null,"
+            + COLUMNS_IMAG_VIDEO[4] + " text null);";
 
 
     public MiSQLiteOpenHelper(Context contexto) {

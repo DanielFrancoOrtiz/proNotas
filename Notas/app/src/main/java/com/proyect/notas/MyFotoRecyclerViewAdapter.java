@@ -4,6 +4,7 @@ import android.content.Context;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v7.widget.AlertDialogLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,7 +83,14 @@ public class MyFotoRecyclerViewAdapter extends RecyclerView.Adapter<MyFotoRecycl
 
             }
         });
-
+        holder.imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                //Investigar AlertDialog para tex
+                mDataset.get(position).setDescripcion("Nueva descripcion");
+                return false;
+            }
+        });
 
     }
     private Bitmap decodeFile(File f) {

@@ -136,7 +136,7 @@ public class audioRecorderFragment extends Fragment implements MediaPlayer.OnPre
         mr.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
         File audio = new File(dir, name);
-        FotoVideoAudio audio1=new FotoVideoAudio(0,name,audio.getAbsolutePath()+name,3);
+        FotoVideoAudio audio1=new FotoVideoAudio(0,name,audio.getAbsolutePath()+name,3,null);
         new DaoImagenVideoAudio(getActivity()).Insert(audio1);
         mitem=audio1;
         mr.setOutputFile(audio.getAbsolutePath());

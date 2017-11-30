@@ -26,6 +26,8 @@ public class DaoImagenVideoAudio {
         cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[1],obj.getNombre());
         cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[2],obj.getdireccion());
         cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[3],obj.getTipo());
+        cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[4], obj.getDescripcion());
+
         return  database.insert(MiSQLiteOpenHelper.TABLE_IMAG_VIDEO_NAME,null,cv);
     }
     public long Update(FotoVideoAudio obj){
@@ -34,7 +36,7 @@ public class DaoImagenVideoAudio {
         cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[1],obj.getNombre());
         cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[2],obj.getdireccion());
         cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[3],obj.getTipo());
-
+        cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[4], obj.getDescripcion());
         return database.update(MiSQLiteOpenHelper.TABLE_NOTAS_NAME,cv,"_id = ?",new String[]{String.valueOf(obj.getId())});
     }
     public long Delete(int id){
@@ -49,7 +51,8 @@ public class DaoImagenVideoAudio {
             lista = new ArrayList<>();
             do{
                 FotoVideoAudio fot =  new FotoVideoAudio(cur.getInt(0),
-                        cur.getString(1),cur.getString(2),cur.getInt(3));
+                        cur.getString(1),cur.getString(2),cur.getInt(3),
+                        cur.getString(4));
                lista.add(fot);
             }while (cur.moveToNext());
         }
@@ -63,7 +66,8 @@ public class DaoImagenVideoAudio {
             lista = new ArrayList<>();
             do{
                 FotoVideoAudio fot =  new FotoVideoAudio(cur.getInt(0),
-                        cur.getString(1),cur.getString(2),cur.getInt(3));
+                        cur.getString(1),cur.getString(2),
+                        cur.getInt(3), cur.getString(4));
                 lista.add(fot);
             }while (cur.moveToNext());
         }
@@ -78,7 +82,8 @@ public class DaoImagenVideoAudio {
             lista = new ArrayList<>();
             do{
                 FotoVideoAudio fot =  new FotoVideoAudio(cur.getInt(0),
-                        cur.getString(1),cur.getString(2),cur.getInt(3));
+                        cur.getString(1),cur.getString(2),cur.getInt(3)
+                ,cur.getString(4));
                 lista.add(fot);
             }while (cur.moveToNext());
         }
@@ -92,7 +97,8 @@ public class DaoImagenVideoAudio {
             lista = new ArrayList<>();
             do{
                 FotoVideoAudio fot =  new FotoVideoAudio(cur.getInt(0),
-                        cur.getString(1),cur.getString(2),cur.getInt(3));
+                        cur.getString(1),cur.getString(2),cur.getInt(3),
+                        cur.getString(4));
                 lista.add(fot);
             }while (cur.moveToNext());
         }
@@ -104,7 +110,8 @@ public class DaoImagenVideoAudio {
         Cursor cur = database.query(MiSQLiteOpenHelper.TABLE_IMAG_VIDEO_NAME,MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO
                 ,"_id = ?",new String[]{String.valueOf(id)},null,null,null);
         if(cur.moveToFirst()){
-            return new FotoVideoAudio(cur.getInt(0), cur.getString(1),cur.getString(2),cur.getInt(3));
+            return new FotoVideoAudio(cur.getInt(0), cur.getString(1),
+                    cur.getString(2),cur.getInt(3), cur.getString(4));
         }
         return null;
 

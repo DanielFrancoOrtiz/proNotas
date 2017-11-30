@@ -161,11 +161,12 @@ public class addNota extends Fragment {
 
                             DaoNotaTarea daoNotaTarea = new DaoNotaTarea(getContext());
 
-                            daoNotaTarea.Update(new NotaTarea(mParam1.getId(), etName.getText().toString(), etNote.getText().toString()
+                            daoNotaTarea.Update(new NotaTarea(mParam1.getId(), etName.getText().toString(),
+                                    etNote.getText().toString()
                                     , 2, Date.valueOf(etDate.getText().toString()),
                                     Time.valueOf(etTime.getText().toString()),
 
-                                    true, null, null));
+                                    true, mParam1.getImagen(), mParam1.getDescripcionImagen()));
                             Toast.makeText(getActivity(), "Actividad realizada", Toast.LENGTH_LONG).show();
                         }else {
                             Toast.makeText(getActivity(), "Actividad", Toast.LENGTH_LONG).show();
@@ -175,7 +176,7 @@ public class addNota extends Fragment {
                                     , 2, Date.valueOf(etDate.getText().toString()),
                                     Time.valueOf(etTime.getText().toString()),
 
-                                    false, null, null));
+                                    false, mParam1.getImagen(), mParam1.getDescripcionImagen()));
                         }
 
                     } else {
@@ -184,7 +185,7 @@ public class addNota extends Fragment {
                         daoNotaTarea.Update(new NotaTarea(mParam1.getId(), etName.getText().toString(), etNote.getText().toString()
                                 , 1, null, null,
 
-                                false,null,null));
+                                false,mParam1.getImagen(),mParam1.getDescripcionImagen()));
                     }
                 }else{
                     if (swActivity.isChecked()) {
@@ -365,6 +366,9 @@ public class addNota extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==1 &&
                 resultCode == getActivity().RESULT_OK){
+            if (mParam1!=null){
+                mParam1.setImagen(path);
+            }
             MediaScannerConnection.scanFile(getContext(), new String[]{path}, null,
                     new MediaScannerConnection.OnScanCompletedListener() {
                         @Override
@@ -372,7 +376,7 @@ public class addNota extends Fragment {
                             Log.i("path",path);
                         }
                     });
-            new DaoImagenVideoAudio(getContext()).Insert(new FotoVideoAudio(0,nombre,path,1));
+            new DaoImagenVideoAudio(getContext()).Insert(new FotoVideoAudio(0,nombre,path,1,null));
             Bitmap bitmap = BitmapFactory.decodeFile(path);
             ivAddNota.setImageBitmap(bitmap);
             //ivAddNota.setImageBitmap((Bitmap) data.getExtras().get("data"));
