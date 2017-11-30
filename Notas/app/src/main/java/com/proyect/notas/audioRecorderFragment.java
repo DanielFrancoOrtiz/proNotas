@@ -14,8 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.proyect.notas.Daos.DaoImagenVideoAudio;
+import com.proyect.notas.Daos.FotoVideoAudio;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 
 
 /**
@@ -26,14 +30,14 @@ import java.io.IOException;
  * Use the {@link audioRecorderFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class audioRecorderFragment extends Fragment {
+public class audioRecorderFragment extends Fragment implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private FotoVideoAudio mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
@@ -52,10 +56,10 @@ public class audioRecorderFragment extends Fragment {
      * @return A new instance of fragment audioRecorderFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static audioRecorderFragment newInstance(String param1, String param2) {
+    public static audioRecorderFragment newInstance(FotoVideoAudio param1, String param2) {
         audioRecorderFragment fragment = new audioRecorderFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putSerializable(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
@@ -66,8 +70,9 @@ public class audioRecorderFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam1 = (FotoVideoAudio) getArguments().getSerializable(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            mitem=mParam1;
         }
     }
     FloatingActionButton fab;
@@ -79,6 +84,9 @@ public class audioRecorderFragment extends Fragment {
         grabando=false;
         View v = inflater.inflate(R.layout.fragment_audio_recorder, container, false);
         fab=v.findViewById(R.id.fabRecordAudio);
+        if(getArguments()!=null){
+            fab.setVisibility(View.GONE);
+        }
         fab1=v.findViewById(R.id.fabPlayAudio);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,28 +103,18 @@ public class audioRecorderFragment extends Fragment {
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(reproduciendo){
-                    stopReproducir();
-                }else{
+
                     startReproducir();
-                }
+
 
             }
         });
+
         return v;
     }
     int peticion=1;
     Uri uri;
-    public void grabar(View v) {
-        Intent intent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
-        startActivityForResult(intent, peticion);
-    }
 
-    public void reproducir(View v) {
-        MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(),uri);
-        mediaPlayer.start();
-    }
-    File file;
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == peticion) {
             uri = data.getData();
@@ -128,14 +126,21 @@ public class audioRecorderFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
+    FotoVideoAudio mitem;
     private void startGrabar() {
+        Calendar c = Calendar.getInstance();
+        String name = c.get(Calendar.MONTH)+""+c.get(Calendar.DAY_OF_MONTH)
+                +""+c.get(Calendar.YEAR)+""+c.get(Calendar.HOUR)+""+c.get(Calendar.MINUTE)+""+c.get(Calendar.SECOND)+".mp3";
         mr = new MediaRecorder();
         mr.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mr.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mr.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
-        File audio = new File(dir, "migrabacion.3gp");
+        File audio = new File(dir, name);
+        FotoVideoAudio audio1=new FotoVideoAudio(0,name,audio.getAbsolutePath()+name,3);
+        new DaoImagenVideoAudio(getActivity()).Insert(audio1);
+        mitem=audio1;
         mr.setOutputFile(audio.getAbsolutePath());
-        mr.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        mr.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         try {
             mr.prepare();
         } catch (IllegalStateException e) {
@@ -159,12 +164,30 @@ public class audioRecorderFragment extends Fragment {
     }
 
     private void startReproducir(){
-        mp = new MediaPlayer();
+        //Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
+        //Uri data = Uri.parse(mitem.getdireccion());;
+        //String mime = "*/*";
+        /*MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        if (mimeTypeMap.hasExtension(
+                mimeTypeMap.getFileExtensionFromUrl(data.toString())))
+            mime = mimeTypeMap.getMimeTypeFromExtension(
+                    mimeTypeMap.getFileExtensionFromUrl(data.toString()));
+        intent.setDataAndType(data,mime);
+        startActivity(intent);
+        */
+        //mp = new MediaPlayer();
         File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
+        File audio = new File(dir.getAbsolutePath()+mitem.getNombre());
         try {
-            mp.setDataSource(dir.getAbsolutePath() + "/migrabacion.3gp");
-            mp.prepare();
-            mp.start();
+            /*mp.setDataSource(dir.getAbsolutePath()+mitem.getNombre());
+            mp.set
+            mp.prepareAsync();
+            mp.start();*/
+            Uri datos = Uri.parse(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
+                    .getPath() + "/"+mitem.getNombre());
+            MediaPlayer mp = MediaPlayer.create(getActivity(), datos);
+            mp.setOnPreparedListener(this);
+            mp.prepareAsync();
         } catch (IllegalArgumentException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -174,19 +197,13 @@ public class audioRecorderFragment extends Fragment {
         } catch (IllegalStateException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        reproduciendo=true;
     }
 
-    private void stopReproducir(){
-        mp.stop();
-        mp.release();
-        mp = null;
-        reproduciendo=false;
-    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -202,6 +219,40 @@ public class audioRecorderFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mediaPlayer) {
+        mediaPlayer.release();
+        mediaPlayer = null;
+        try {
+
+            Uri datos = Uri.parse(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
+                    .getPath() + "/"+mitem.getNombre());
+            MediaPlayer mp = MediaPlayer.create(getActivity(), datos);
+            mp.setOnPreparedListener(this);
+            mp.prepareAsync();
+        } catch (IllegalArgumentException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onPrepared(MediaPlayer mediaPlayer) {
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+        }
+        mediaPlayer.start();
     }
 
     /**

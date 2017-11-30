@@ -10,11 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.proyect.notas.Daos.DaoImagenVideo;
-import com.proyect.notas.Daos.FotoVideo;
-
-
-import java.util.List;
+import com.proyect.notas.Daos.DaoImagenVideoAudio;
+import com.proyect.notas.Daos.FotoVideoAudio;
 
 /**
  * A fragment representing a list of Items.
@@ -70,8 +67,8 @@ public class FotoFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            if(new DaoImagenVideo(getActivity()).getAllFotos()!=null) {
-                recyclerView.setAdapter(new MyFotoRecyclerViewAdapter(new DaoImagenVideo(getActivity()).getAllFotos(),mListener));
+            if(new DaoImagenVideoAudio(getActivity()).getAllFotos()!=null) {
+                recyclerView.setAdapter(new MyFotoRecyclerViewAdapter(new DaoImagenVideoAudio(getActivity()).getAllFotos(),mListener));
             }
         }
         return view;
@@ -107,6 +104,6 @@ public class FotoFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(FotoVideo item);
+        void onListFragmentInteraction(FotoVideoAudio item);
     }
 }

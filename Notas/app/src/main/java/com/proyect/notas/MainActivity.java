@@ -3,16 +3,12 @@ package com.proyect.notas;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -32,30 +28,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.MimeTypeMap;
-import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.Toast;
 
-import com.proyect.notas.Daos.DaoImagenVideo;
+import com.proyect.notas.Daos.DaoImagenVideoAudio;
 import com.proyect.notas.Daos.DaoNotaTarea;
-import com.proyect.notas.Daos.FotoVideo;
+import com.proyect.notas.Daos.FotoVideoAudio;
 import com.proyect.notas.Daos.NotaTarea;
 
 
 import java.io.File;
-import java.io.IOException;
-import java.sql.Time;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import static com.proyect.notas.R.string.deleting_message;
-import static com.proyect.notas.R.string.switch1;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, addNota.OnFragmentInteractionListener,
         NotaTareaFragment.OnListFragmentInteractionListener, FotoFragment.OnListFragmentInteractionListener,
         VideoFragment.OnListFragmentInteractionListener,viewVideo.OnFragmentInteractionListener,
-        audioRecorderFragment.OnFragmentInteractionListener{
+        audioRecorderFragment.OnFragmentInteractionListener,AudioFragment.OnListFragmentInteractionListener{
 
     /*
     Esta variable se utilizara para saber cual de las opciones del menu
@@ -168,6 +155,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_audio) {
             opcion = 1;
+            setFragment(1);
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
             opcion = 2;
@@ -198,7 +186,11 @@ public class MainActivity extends AppCompatActivity
         switch (position) {
 
             case 1:
-
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                AudioFragment audio = new AudioFragment();
+                fragmentTransaction.replace(R.id.fragment, audio);
+                fragmentTransaction.commit();
                 break;
             case 2:
                 fragmentManager = getSupportFragmentManager();
@@ -266,6 +258,9 @@ public class MainActivity extends AppCompatActivity
                             fragmentTransaction.replace(R.id.fragment, nota);
                             fragmentTransaction.commit();
                             dialogInterface.dismiss();
+                            break;
+                        case 3:
+
                             break;
                     }
                 }
@@ -374,7 +369,7 @@ public class MainActivity extends AppCompatActivity
                                 Log.i("path",path);
                             }
                         });
-                new DaoImagenVideo(this).Insert(new FotoVideo(0,nombre,path,1));
+                new DaoImagenVideoAudio(this).Insert(new FotoVideoAudio(0,nombre,path,1));
                 setFragment(2);
                 break;
             case VIDEO:
@@ -385,7 +380,7 @@ public class MainActivity extends AppCompatActivity
                                 Log.i("path",path);
                             }
                         });
-                new DaoImagenVideo(this).Insert(new FotoVideo(0,nombre,path,2));
+                new DaoImagenVideoAudio(this).Insert(new FotoVideoAudio(0,nombre,path,2));
                 break; 
             case AUDIO:
                 Uri uri = data.getData();
@@ -448,12 +443,6 @@ public class MainActivity extends AppCompatActivity
 
     public void openInGallery(String imageId) {
         File file = new File(imageId);
-        //Uri uri = Uri.fromFile(file);
-        //Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI.buildUpon().appendPath(imageId).build();
-
-        //Intent i = new Intent(Intent.ACTION_VIEW, Uri.fromFile(file));
-        //i.setType("image/*");
-        //startActivity(i);
         Uri uri =  Uri.fromFile(file);
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
         String mime = "*/*";
@@ -468,18 +457,29 @@ public class MainActivity extends AppCompatActivity
 
 
     @Override
-    public void onListFragmentInteraction(FotoVideo item) {
+    public void onListFragmentInteraction(FotoVideoAudio item) {
         openInGallery(item.getdireccion());
     }
 
     @Override
-    public void onListFragmentInteraction(FotoVideo item, boolean flag) {
+    public void onListFragmentInteraction(FotoVideoAudio item, boolean flag) {
         //this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         viewVideo v = viewVideo.newInstance(item);
+        fragmentTransaction.replace(R.id.fragment, v);
+        fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onListFragmentInteraction(FotoVideoAudio item, int i) {
+        FragmentManager fragmentManager;
+        FragmentTransaction fragmentTransaction;
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        audioRecorderFragment v = audioRecorderFragment.newInstance(item,"");
         fragmentTransaction.replace(R.id.fragment, v);
         fragmentTransaction.commit();
     }

@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.proyect.notas.Daos.FotoVideo;
+import com.proyect.notas.Daos.FotoVideoAudio;
 import com.proyect.notas.FotoFragment.OnListFragmentInteractionListener;
 
 
@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class MyFotoRecyclerViewAdapter extends RecyclerView.Adapter<MyFotoRecyclerViewAdapter.ViewHolder> {
 
-    private List<FotoVideo> mDataset;
+    private List<FotoVideoAudio> mDataset;
     private final OnListFragmentInteractionListener mlistener;
 
 
@@ -45,7 +45,7 @@ public class MyFotoRecyclerViewAdapter extends RecyclerView.Adapter<MyFotoRecycl
 
     Context c ;
     // Constructor, puedes crear varios según el tipo de contenido.
-    public MyFotoRecyclerViewAdapter(List<FotoVideo> myDataset,OnListFragmentInteractionListener mlistener) {
+    public MyFotoRecyclerViewAdapter(List<FotoVideoAudio> myDataset, OnListFragmentInteractionListener mlistener) {
         mDataset = myDataset;
         this.mlistener=mlistener;
     }
@@ -65,8 +65,8 @@ public class MyFotoRecyclerViewAdapter extends RecyclerView.Adapter<MyFotoRecycl
         // - Se recupera el elemento del vector con position.
         //holder.imageView.setContentDescription(mDataset.get(position).getdireccion());
         //Aqui se deberia poder cargar la imagen en el imageView de arriva.
-        //DaoImagenVideo da = new DaoImagenVideo(c);
-        //List<FotoVideo> lista = da.getAllFotos();
+        //DaoImagenVideoAudio da = new DaoImagenVideoAudio(c);
+        //List<FotoVideoAudio> lista = da.getAllFotos();
         //Bitmap bitmap = BitmapFactory.decodeFile(lista.get(position).getdireccion());
         //holder.imageView.setImageBitmap(bitmap);
         File img= new File(mDataset.get(position).getdireccion());

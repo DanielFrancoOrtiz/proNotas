@@ -3,6 +3,7 @@ package com.proyect.notas;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -73,13 +75,15 @@ public class addNota extends Fragment {
             mParam1 = (NotaTarea) getArguments().getSerializable(ARG_PARAM1);
         }
     }
-
+    private static final int PHOTO_SELECTED = 1;
     Button btnOk;
     EditText etName;
     EditText etNote;
     EditText etTime;
     EditText etDate;
     Switch swActivity;
+    Switch swRealizada;
+    ImageView ivAddNota;
     int year,mes,dia;
 
     @Override
@@ -93,10 +97,20 @@ public class addNota extends Fragment {
         etTime = (EditText) v.findViewById(R.id.etTime);
         etDate = (EditText) v.findViewById(R.id.etDate);
         swActivity = (Switch) v.findViewById(R.id.swActivity);
+        swRealizada =(Switch) v.findViewById(R.id.swRealizada);
+        ivAddNota =(ImageView) v.findViewById(R.id.ivAddNota);
+        swRealizada.setEnabled(false);
 
         if(getArguments()!= null){
+            swRealizada.setEnabled(true);
             etName.setText(mParam1.getTitulo());
-            etNote.setText(mParam1.getDescripcion()+""+mParam1.getId());
+            etNote.setText(mParam1.getDescripcion());
+            if (mParam1.isRealizada()){
+                swRealizada.setChecked(true);
+                Toast.makeText(getActivity(),":v",Toast.LENGTH_LONG);
+            }else {
+                Toast.makeText(getActivity(),":'v",Toast.LENGTH_LONG);
+            }
             if(mParam1.getTipo()==2){
                 swActivity.setChecked(true);
                 etDate.setText(mParam1.getFecha().toString());
@@ -107,6 +121,8 @@ public class addNota extends Fragment {
             }
 
 
+
+
         }
         if(swActivity.isChecked()){
             stateOfInterface(true);
@@ -114,19 +130,32 @@ public class addNota extends Fragment {
             stateOfInterface(false);
         }
 
+
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(getArguments()!=null) {
                     if (swActivity.isChecked()) {
-                        Toast.makeText(getActivity(), "Actividad", Toast.LENGTH_LONG).show();
-                        DaoNotaTarea daoNotaTarea = new DaoNotaTarea(getContext());
+                        if(swRealizada.isChecked()) {
 
-                        daoNotaTarea.Update(new NotaTarea(mParam1.getId(), etName.getText().toString(), etNote.getText().toString()
-                                , 2, Date.valueOf(etDate.getText().toString()),
-                                Time.valueOf(etTime.getText().toString()),
+                            DaoNotaTarea daoNotaTarea = new DaoNotaTarea(getContext());
 
-                                false,null,null));
+                            daoNotaTarea.Update(new NotaTarea(mParam1.getId(), etName.getText().toString(), etNote.getText().toString()
+                                    , 2, Date.valueOf(etDate.getText().toString()),
+                                    Time.valueOf(etTime.getText().toString()),
+
+                                    true, null, null));
+                            Toast.makeText(getActivity(), "Actividad realizada", Toast.LENGTH_LONG).show();
+                        }else {
+                            Toast.makeText(getActivity(), "Actividad", Toast.LENGTH_LONG).show();
+                            DaoNotaTarea daoNotaTarea = new DaoNotaTarea(getContext());
+
+                            daoNotaTarea.Update(new NotaTarea(mParam1.getId(), etName.getText().toString(), etNote.getText().toString()
+                                    , 2, Date.valueOf(etDate.getText().toString()),
+                                    Time.valueOf(etTime.getText().toString()),
+
+                                    false, null, null));
+                        }
 
                     } else {
                         DaoNotaTarea daoNotaTarea = new DaoNotaTarea(getContext());
@@ -194,8 +223,15 @@ public class addNota extends Fragment {
             }
         });
 
+
+        ivAddNota.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
         return v;
     }
+
     public void showPickTime(){
         final Calendar calendario = Calendar.getInstance();
         final int hh = calendario.get(Calendar.HOUR_OF_DAY);
@@ -234,6 +270,7 @@ public class addNota extends Fragment {
     public void stateOfInterface(Boolean flag){
         etDate.setEnabled(flag);
         etTime.setEnabled(flag);
+        swRealizada.setEnabled(flag);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

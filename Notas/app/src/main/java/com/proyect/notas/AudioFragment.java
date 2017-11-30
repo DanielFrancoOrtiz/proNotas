@@ -13,13 +13,15 @@ import android.view.ViewGroup;
 import com.proyect.notas.Daos.DaoImagenVideoAudio;
 import com.proyect.notas.Daos.FotoVideoAudio;
 
+import java.util.List;
+
 /**
  * A fragment representing a list of Items.
  * <p/>
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class VideoFragment extends Fragment {
+public class AudioFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -31,13 +33,13 @@ public class VideoFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public VideoFragment() {
+    public AudioFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static VideoFragment newInstance(int columnCount) {
-        VideoFragment fragment = new VideoFragment();
+    public static AudioFragment newInstance(int columnCount) {
+        AudioFragment fragment = new AudioFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -56,7 +58,7 @@ public class VideoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_video_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_audio_list, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -67,8 +69,9 @@ public class VideoFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            if(new DaoImagenVideoAudio(getActivity()).getAllFotos()!=null) {
-                recyclerView.setAdapter(new MyVideoRecyclerViewAdapter(new DaoImagenVideoAudio(getActivity()).getAllVideos(), mListener));
+            if (new DaoImagenVideoAudio(getActivity()).getAllAudios() != null) {
+                recyclerView.setAdapter(new MyAudioRecyclerViewAdapter(new DaoImagenVideoAudio(getActivity()).getAllAudios(), mListener));
+
             }
         }
         return view;
@@ -104,6 +107,6 @@ public class VideoFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(FotoVideoAudio item, boolean flag);
+        void onListFragmentInteraction(FotoVideoAudio item,int i);
     }
 }

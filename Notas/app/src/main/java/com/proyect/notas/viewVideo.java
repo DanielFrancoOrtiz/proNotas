@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
-import com.proyect.notas.Daos.FotoVideo;
+import com.proyect.notas.Daos.FotoVideoAudio;
 
 
 /**
@@ -30,7 +30,7 @@ public class viewVideo extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     VideoView videoView;
     // TODO: Rename and change types of parameters
-    private FotoVideo mParam1;
+    private FotoVideoAudio mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
@@ -47,7 +47,7 @@ public class viewVideo extends Fragment {
      * @return A new instance of fragment viewVideo.
      */
     // TODO: Rename and change types and number of parameters
-    public static viewVideo newInstance(FotoVideo param1) {
+    public static viewVideo newInstance(FotoVideoAudio param1) {
         viewVideo fragment = new viewVideo();
         Bundle args = new Bundle();
         args.putSerializable(ARG_PARAM1, param1);
@@ -59,7 +59,7 @@ public class viewVideo extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = (FotoVideo) getArguments().getSerializable(ARG_PARAM1);
+            mParam1 = (FotoVideoAudio) getArguments().getSerializable(ARG_PARAM1);
         }
     }
     MediaPlayer.OnPreparedListener videoViewListener;

@@ -6,11 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.TextView;
-import android.widget.VideoView;
 
-import com.proyect.notas.Daos.FotoVideo;
+import com.proyect.notas.Daos.FotoVideoAudio;
 import com.proyect.notas.VideoFragment.OnListFragmentInteractionListener;
 
 import java.util.List;
@@ -22,10 +20,10 @@ import java.util.List;
  */
 public class MyVideoRecyclerViewAdapter extends RecyclerView.Adapter<MyVideoRecyclerViewAdapter.ViewHolder> {
 
-    private final List<FotoVideo> mValues;
+    private final List<FotoVideoAudio> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyVideoRecyclerViewAdapter(List<FotoVideo> items, OnListFragmentInteractionListener listener) {
+    public MyVideoRecyclerViewAdapter(List<FotoVideoAudio> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -76,7 +74,7 @@ public class MyVideoRecyclerViewAdapter extends RecyclerView.Adapter<MyVideoRecy
         // each data item is just a string in this case
         public ImageView imageView;
         public TextView textView;
-        public FotoVideo mItem;
+        public FotoVideoAudio mItem;
         public ViewHolder(View v) {
             super(v);
 

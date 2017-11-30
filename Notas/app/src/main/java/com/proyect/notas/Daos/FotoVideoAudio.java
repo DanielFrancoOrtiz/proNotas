@@ -6,13 +6,13 @@ import java.io.Serializable;
  * Created by Franco on 20/11/2017.
  */
 
-public class FotoVideo implements Serializable {
+public class FotoVideoAudio implements Serializable {
     int id;
     String nombre;
     String direccion;
     int tipo;
 
-    public FotoVideo(int id, String nombre, String direccion,int tipo) {
+    public FotoVideoAudio(int id, String nombre, String direccion, int tipo) {
         this.id = id;
         this.nombre = nombre;
         this.direccion = direccion;
