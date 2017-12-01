@@ -31,7 +31,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.webkit.MimeTypeMap;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.proyect.notas.Daos.DaoImagenVideoAudio;
@@ -58,11 +61,13 @@ public class MainActivity extends AppCompatActivity
     private final int  FOTO = 1;
     private final int  VIDEO = 2;
     private final int AUDIO =3;
+    TextView txtTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        txtTitle= (TextView) findViewById(R.id.txtTitle);
         setSupportActionBar(toolbar);
         checkPermissions();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -217,6 +222,7 @@ public class MainActivity extends AppCompatActivity
             switch (position) {
 
                 case 1:
+                    txtTitle.setText(getString(R.string.Audios));
                     fragmentManager = getSupportFragmentManager();
                     fragmentTransaction = fragmentManager.beginTransaction();
                     AudioFragment audio = new AudioFragment();
@@ -225,6 +231,7 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransaction.commit();
                     break;
                 case 2:
+                    txtTitle.setText(getString(R.string.Photos));
                     fragmentManager = getSupportFragmentManager();
                     fragmentTransaction = fragmentManager.beginTransaction();
                     FotoFragment camera = new FotoFragment();
@@ -233,6 +240,7 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransaction.commit();
                     break;
                 case 3:
+                    txtTitle.setText(getString(R.string.Videos));
                     fragmentManager = getSupportFragmentManager();
                     fragmentTransaction = fragmentManager.beginTransaction();
                     VideoFragment video = new VideoFragment();
@@ -241,6 +249,7 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransaction.commit();
                     break;
                 case 4:
+                    txtTitle.setText(getString(R.string.List_notes));
                     fragmentManager = getSupportFragmentManager();
                     fragmentTransaction = fragmentManager.beginTransaction();
                     NotaTareaFragment notaTareaFragment = new NotaTareaFragment();
@@ -249,6 +258,7 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransaction.commit();
                     break;
                 case 8:
+                    txtTitle.setText(getString(R.string.title_of_add_nota));
                     fragmentManager = getSupportFragmentManager();
                     fragmentTransaction = fragmentManager.beginTransaction();
                     addNota addnota = new addNota();
@@ -262,6 +272,7 @@ public class MainActivity extends AppCompatActivity
             switch (position) {
 
                 case 1:
+                    txtTitle.setText(getString(R.string.Audios));
                     fragmentManager = getSupportFragmentManager();
                     fragmentTransaction = fragmentManager.beginTransaction();
                     AudioFragment audio = new AudioFragment();
@@ -270,6 +281,7 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransaction.commit();
                     break;
                 case 2:
+                    txtTitle.setText(getString(R.string.Photos));
                     fragmentManager = getSupportFragmentManager();
                     fragmentTransaction = fragmentManager.beginTransaction();
                     FotoFragment camera = new FotoFragment();
@@ -278,6 +290,7 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransaction.commit();
                     break;
                 case 3:
+                    txtTitle.setText(getString(R.string.Videos));
                     fragmentManager = getSupportFragmentManager();
                     fragmentTransaction = fragmentManager.beginTransaction();
                     VideoFragment video = new VideoFragment();
@@ -286,6 +299,7 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransaction.commit();
                     break;
                 case 4:
+                    txtTitle.setText(getString(R.string.Notes));
                     fragmentManager = getSupportFragmentManager();
                     fragmentTransaction = fragmentManager.beginTransaction();
                     NotaTareaFragment notaTareaFragment = new NotaTareaFragment();
@@ -294,6 +308,7 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransaction.commit();
                     break;
                 case 8:
+                    txtTitle.setText(getString(R.string.title_of_add_nota));
                     fragmentManager = getSupportFragmentManager();
                     fragmentTransaction = fragmentManager.beginTransaction();
                     addNota addnota1 = new addNota();
@@ -328,6 +343,7 @@ public class MainActivity extends AppCompatActivity
                             dialogInterface.dismiss();
                             break;
                         case 1:
+                            txtTitle.setText(getString(R.string.title_of_add_nota));
                             FragmentManager fragmentManager;
                             FragmentTransaction fragmentTransaction;
                             fragmentManager = getSupportFragmentManager();
@@ -398,6 +414,7 @@ public class MainActivity extends AppCompatActivity
         startActivityForResult(intent, VIDEO);
     }
     public void Audio(){
+        txtTitle.setText(getString(R.string.addAudio));
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         audioRecorderFragment audioRecorder = new audioRecorderFragment();
@@ -515,6 +532,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onListFragmentInteraction(FotoVideoAudio item, boolean flag) {
         //this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        txtTitle.setText(R.string.Videos);
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;
         fragmentManager = getSupportFragmentManager();
@@ -527,6 +545,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(FotoVideoAudio item, int i) {
+        txtTitle.setText(R.string.Audios);
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;
         fragmentManager = getSupportFragmentManager();
