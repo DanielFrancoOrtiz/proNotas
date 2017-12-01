@@ -20,6 +20,10 @@
     <string name="Share">Share</string>
     <string name="Send">Send</string>
     <string name="seccion_title">Communicate</string>
+    <string name="hint_date">Date</string>
+    <string name="hint_time">Time</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_note">Write your note...</string>
 
 
 </resources>

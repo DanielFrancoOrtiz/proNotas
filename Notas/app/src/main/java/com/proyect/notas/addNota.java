@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -113,7 +114,8 @@ public class addNota extends Fragment {
         swRealizada =(Switch) v.findViewById(R.id.swRealizada);
         ivAddNota =(ImageView) v.findViewById(R.id.ivAddNota);
 
-
+        etDate.setInputType(InputType.TYPE_NULL);
+        etTime.setInputType(InputType.TYPE_NULL);
         if(getArguments()!= null){
             path = mParam1.getImagen();
 

@@ -91,7 +91,6 @@ public class audioRecorderFragment extends Fragment implements MediaPlayer.OnPre
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if(grabando){
                     stopGrabar();
                 }else{
@@ -103,12 +102,15 @@ public class audioRecorderFragment extends Fragment implements MediaPlayer.OnPre
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                    startReproducir();
+                    if(reproduciendo){
+                        stopReproducir();
+                    }else{
+                    startReproducir();}
 
 
             }
         });
+
 
         return v;
     }
@@ -128,6 +130,7 @@ public class audioRecorderFragment extends Fragment implements MediaPlayer.OnPre
     }
     FotoVideoAudio mitem;
     private void startGrabar() {
+        fab.setImageDrawable(getResources().getDrawable(R.drawable.microphone));
         Calendar c = Calendar.getInstance();
         String name = c.get(Calendar.MONTH)+""+c.get(Calendar.DAY_OF_MONTH)
                 +""+c.get(Calendar.YEAR)+""+c.get(Calendar.HOUR)+""+c.get(Calendar.MINUTE)+""+c.get(Calendar.SECOND)+".mp3";
@@ -157,12 +160,12 @@ public class audioRecorderFragment extends Fragment implements MediaPlayer.OnPre
     }
 
     private void stopGrabar() {
+        fab.setImageDrawable(getResources().getDrawable(R.drawable.microphone_off));
         mr.stop();
         mr.release();
         mr=null;
         grabando=false;
     }
-
     private void startReproducir(){
         //Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
         //Uri data = Uri.parse(mitem.getdireccion());;
@@ -176,6 +179,7 @@ public class audioRecorderFragment extends Fragment implements MediaPlayer.OnPre
         startActivity(intent);
         */
         //mp = new MediaPlayer();
+        fab1.setImageDrawable(getResources().getDrawable(R.drawable.stop));
         File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
         File audio = new File(dir.getAbsolutePath()+mitem.getNombre());
         try {
@@ -185,8 +189,9 @@ public class audioRecorderFragment extends Fragment implements MediaPlayer.OnPre
             mp.start();*/
             Uri datos = Uri.parse(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
                     .getPath() + "/"+mitem.getNombre());
-            MediaPlayer mp = MediaPlayer.create(getActivity(), datos);
+            mp = MediaPlayer.create(getActivity(), datos);
             mp.setOnPreparedListener(this);
+            reproduciendo=true;
             mp.prepareAsync();
         } catch (IllegalArgumentException e) {
             // TODO Auto-generated catch block
@@ -201,7 +206,15 @@ public class audioRecorderFragment extends Fragment implements MediaPlayer.OnPre
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
     }
+    public void stopReproducir(){
+        fab1.setImageDrawable(getResources().getDrawable(R.drawable.play));
+        mp.release();
+        mp = null;
+        reproduciendo=false;
+    }
+
 
 
     @Override

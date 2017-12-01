@@ -66,6 +66,14 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         checkPermissions();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FragmentManager fragmentManager;
+        FragmentTransaction fragmentTransaction;
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        NotaTareaFragment notaTareaFragment = new NotaTareaFragment();
+        fragmentTransaction.replace(R.id.fragment, notaTareaFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -213,6 +221,7 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransaction = fragmentManager.beginTransaction();
                     AudioFragment audio = new AudioFragment();
                     fragmentTransaction.replace(R.id.fragment, audio);
+                    fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                     break;
                 case 2:
@@ -220,6 +229,7 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransaction = fragmentManager.beginTransaction();
                     FotoFragment camera = new FotoFragment();
                     fragmentTransaction.replace(R.id.fragment, camera);
+                    fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                     break;
                 case 3:
@@ -227,6 +237,7 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransaction = fragmentManager.beginTransaction();
                     VideoFragment video = new VideoFragment();
                     fragmentTransaction.replace(R.id.fragment, video);
+                    fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                     break;
                 case 4:
@@ -234,19 +245,15 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransaction = fragmentManager.beginTransaction();
                     NotaTareaFragment notaTareaFragment = new NotaTareaFragment();
                     fragmentTransaction.replace(R.id.fragment, notaTareaFragment);
+                    fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
-                    break;
-                case 5:
-                    break;
-                case 6:
-                    break;
-                case 7:
                     break;
                 case 8:
                     fragmentManager = getSupportFragmentManager();
                     fragmentTransaction = fragmentManager.beginTransaction();
                     addNota addnota = new addNota();
                     fragmentTransaction.replace(R.id.fragment, addnota);
+                    fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                     break;
             }
@@ -259,6 +266,7 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransaction = fragmentManager.beginTransaction();
                     AudioFragment audio = new AudioFragment();
                     fragmentTransaction.replace(R.id.fragment, audio);
+                    fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                     break;
                 case 2:
@@ -266,6 +274,7 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransaction = fragmentManager.beginTransaction();
                     FotoFragment camera = new FotoFragment();
                     fragmentTransaction.replace(R.id.fragment, camera);
+                    fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                     break;
                 case 3:
@@ -273,6 +282,7 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransaction = fragmentManager.beginTransaction();
                     VideoFragment video = new VideoFragment();
                     fragmentTransaction.replace(R.id.fragment, video);
+                    fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                     break;
                 case 4:
@@ -280,19 +290,15 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransaction = fragmentManager.beginTransaction();
                     NotaTareaFragment notaTareaFragment = new NotaTareaFragment();
                     fragmentTransaction.replace(R.id.fragment, notaTareaFragment);
+                    fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
-                    break;
-                case 5:
-                    break;
-                case 6:
-                    break;
-                case 7:
                     break;
                 case 8:
                     fragmentManager = getSupportFragmentManager();
                     fragmentTransaction = fragmentManager.beginTransaction();
                     addNota addnota1 = new addNota();
                     fragmentTransaction.replace(R.id.fragment, addnota1);
+                    fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                     break;
             }
@@ -328,6 +334,7 @@ public class MainActivity extends AppCompatActivity
                             fragmentTransaction = fragmentManager.beginTransaction();
                             addNota nota = addNota.newInstance(item);
                             fragmentTransaction.replace(R.id.fragment, nota);
+                            fragmentTransaction.addToBackStack(null);
                             fragmentTransaction.commit();
                             dialogInterface.dismiss();
                             break;
@@ -337,26 +344,6 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
             });
-
-            //alertDialog.setTitle(getString(R.string.title_dialog));
-            //alertDialog.setMessage(getString(R.string.deleting_message));
-
-            /*alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                }
-            });
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            daoNotaTarea.Delete(item.getId());
-                            setFragment(4);
-                            dialog.dismiss();
-                        }
-                    });
-            */
-
             alertDialog.show();
         }else{
 
@@ -415,16 +402,8 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         audioRecorderFragment audioRecorder = new audioRecorderFragment();
         fragmentTransaction.replace(R.id.fragment, audioRecorder);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-        /*
-        Intent intent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
-        Long consecutivo = System.currentTimeMillis()/1000;
-        nombre = consecutivo.toString()+".mp4";
-        path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) +
-                File.separator+"imgNotas"+File.separator+nombre;
-        archivoAG = new File(path);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(archivoAG));
-        startActivityForResult(intent, AUDIO);*/
     }
 
 
@@ -542,6 +521,7 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction = fragmentManager.beginTransaction();
         viewVideo v = viewVideo.newInstance(item);
         fragmentTransaction.replace(R.id.fragment, v);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
@@ -553,6 +533,7 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction = fragmentManager.beginTransaction();
         audioRecorderFragment v = audioRecorderFragment.newInstance(item,"");
         fragmentTransaction.replace(R.id.fragment, v);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 }
