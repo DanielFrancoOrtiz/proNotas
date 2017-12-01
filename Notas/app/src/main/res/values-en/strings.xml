@@ -1,5 +1,5 @@
-<resources>
-    <string name="app_name">Notas</string>
+<?xml version="1.0" encoding="utf-8"?>
+<resources><string name="app_name">Notas</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -17,6 +17,4 @@
     <string name="Notes">Notes and Tasks</string>
     <string name="Share">Share</string>
     <string name="Send">Send</string>
-    <string name="seccion_title">Communicate</string>
-
-</resources>
+    <string name="seccion_title">Communicate</string></resources>

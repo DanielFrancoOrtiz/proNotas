@@ -1,9 +1,12 @@
 package com.proyect.notas;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.graphics.drawable.GradientDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -18,6 +21,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.Surface;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -37,6 +41,7 @@ import com.proyect.notas.Daos.NotaTarea;
 
 
 import java.io.File;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, addNota.OnFragmentInteractionListener,
@@ -126,7 +131,7 @@ public class MainActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-
+    boolean language=false;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -136,6 +141,20 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            if(language=false){
+                Locale locale = new Locale("en");
+                Locale.setDefault(locale);
+                Configuration config = new Configuration();
+                config.locale = locale;
+                language=true;
+            }else {
+                Locale locale = new Locale("es");
+                Locale.setDefault(locale);
+                Configuration config = new Configuration();
+                config.locale = locale;
+                language=false;
+            }
+
             return true;
         }
 
@@ -183,50 +202,102 @@ public class MainActivity extends AppCompatActivity
     public void setFragment(int position) {
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;
-        switch (position) {
+        int rotacion = getWindowManager().getDefaultDisplay().getRotation();
+        if (rotacion == Surface.ROTATION_0 || rotacion == Surface.ROTATION_180) {
+            //...hacer lo que quiera con la pantalla vertical
+            switch (position) {
 
-            case 1:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                AudioFragment audio = new AudioFragment();
-                fragmentTransaction.replace(R.id.fragment, audio);
-                fragmentTransaction.commit();
-                break;
-            case 2:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                FotoFragment camera = new FotoFragment();
-                fragmentTransaction.replace(R.id.fragment, camera);
-                fragmentTransaction.commit();
-                break;
-            case 3:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                VideoFragment video = new VideoFragment();
-                fragmentTransaction.replace(R.id.fragment, video);
-                fragmentTransaction.commit();
-                break;
-            case 4:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                NotaTareaFragment notaTareaFragment = new NotaTareaFragment();
-                fragmentTransaction.replace(R.id.fragment, notaTareaFragment);
-                fragmentTransaction.commit();
-                break;
-            case 5:
-                break;
-            case 6:
-                break;
-            case 7:
-                break;
-            case 8:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                addNota addnota = new addNota();
-                fragmentTransaction.replace(R.id.fragment, addnota);
-                fragmentTransaction.commit();
-                break;
+                case 1:
+                    fragmentManager = getSupportFragmentManager();
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    AudioFragment audio = new AudioFragment();
+                    fragmentTransaction.replace(R.id.fragment, audio);
+                    fragmentTransaction.commit();
+                    break;
+                case 2:
+                    fragmentManager = getSupportFragmentManager();
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    FotoFragment camera = new FotoFragment();
+                    fragmentTransaction.replace(R.id.fragment, camera);
+                    fragmentTransaction.commit();
+                    break;
+                case 3:
+                    fragmentManager = getSupportFragmentManager();
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    VideoFragment video = new VideoFragment();
+                    fragmentTransaction.replace(R.id.fragment, video);
+                    fragmentTransaction.commit();
+                    break;
+                case 4:
+                    fragmentManager = getSupportFragmentManager();
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    NotaTareaFragment notaTareaFragment = new NotaTareaFragment();
+                    fragmentTransaction.replace(R.id.fragment, notaTareaFragment);
+                    fragmentTransaction.commit();
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    break;
+                case 8:
+                    fragmentManager = getSupportFragmentManager();
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    addNota addnota = new addNota();
+                    fragmentTransaction.replace(R.id.fragment, addnota);
+                    fragmentTransaction.commit();
+                    break;
+            }
+        } else {
+            //...hacer lo que quiera con la pantalla horizontal
+            switch (position) {
+
+                case 1:
+                    fragmentManager = getSupportFragmentManager();
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    AudioFragment audio = new AudioFragment();
+                    fragmentTransaction.replace(R.id.fragment, audio);
+                    fragmentTransaction.commit();
+                    break;
+                case 2:
+                    fragmentManager = getSupportFragmentManager();
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    FotoFragment camera = new FotoFragment();
+                    fragmentTransaction.replace(R.id.fragment, camera);
+                    fragmentTransaction.commit();
+                    break;
+                case 3:
+                    fragmentManager = getSupportFragmentManager();
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    VideoFragment video = new VideoFragment();
+                    fragmentTransaction.replace(R.id.fragment, video);
+                    fragmentTransaction.commit();
+                    break;
+                case 4:
+                    fragmentManager = getSupportFragmentManager();
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    NotaTareaFragment notaTareaFragment = new NotaTareaFragment();
+                    fragmentTransaction.replace(R.id.fragment, notaTareaFragment);
+                    fragmentTransaction.commit();
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    break;
+                case 8:
+                    fragmentManager = getSupportFragmentManager();
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    addNota addnota1 = new addNota();
+                    fragmentTransaction.replace(R.id.fragment, addnota1);
+                    fragmentTransaction.commit();
+                    break;
+            }
         }
+
+
     }
     @Override
     public void onFragmentInteraction(Uri uri) {

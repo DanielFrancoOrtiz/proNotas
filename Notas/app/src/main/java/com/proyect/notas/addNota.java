@@ -133,18 +133,19 @@ public class addNota extends Fragment {
                 Bitmap bitmap = BitmapFactory.decodeFile(mParam1.getImagen());
                 ivAddNota.setImageBitmap(bitmap);
             }
-        }
 
+            if (mParam1.getRealizada()==1){
+                swRealizada.setChecked(true);
+            }else{
+                swRealizada.setChecked(false);
+            }
+        }
         if(swActivity.isChecked()){
             stateOfInterface(true);
         }else{
             stateOfInterface(false);
         }
-        if (mParam1.getRealizada()==1){
-            swRealizada.setChecked(true);
-        }else{
-            swRealizada.setChecked(false);
-        }
+
 
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override

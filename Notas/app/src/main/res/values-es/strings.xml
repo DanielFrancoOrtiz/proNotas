@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Notas</string>
+
+    <string name="navigation_drawer_open">Abrir menu de navegacion</string>
+    <string name="navigation_drawer_close">Cerrar menu de navegacion</string>
+
+    <string name="action_settings">Cambiar idioma</string>
+    <string name="switch1">Actividad</string>
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="deleting_message">¿Estas seguro de eliminar este elemento?</string>
+    <string name="title_dialog">¿Que deseas hacer con este elemento?</string>
+    <string name="Audios">Audios</string>
+    <string name="Photos">Fotos</string>
+    <string name="Videos">Videos</string>
+    <string name="Notes">Notas y Tareas</string>
+    <string name="Share">Compartir</string>
+    <string name="Send">Enviar</string>
+    <string name="seccion_title">Comunicar</string>
+</resources>
