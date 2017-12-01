@@ -32,8 +32,9 @@ public class MiSQLiteOpenHelper extends SQLiteOpenHelper {
             + COLUMNS_IMAG_VIDEO[2] + " text not null,"
             + COLUMNS_IMAG_VIDEO[3] + " int not null,"
             + COLUMNS_IMAG_VIDEO[4] + " text null,"
-            + COLUMNS_IMAG_VIDEO[5] + " int not null," +
-            "constraint ";
+            + COLUMNS_IMAG_VIDEO[5] + " int not null, FOREIGN KEY ("
+            + COLUMNS_IMAG_VIDEO[5]+") REFERENCES "
+            + TABLE_NOTAS_NAME +" ( "+ COLUMNS_NOTAS[0]+" ));";
 
 
     public MiSQLiteOpenHelper(Context contexto) {
@@ -42,8 +43,7 @@ public class MiSQLiteOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(
-                TABLE_NOTAS);
+        sqLiteDatabase.execSQL(TABLE_NOTAS);
         sqLiteDatabase.execSQL(TABLE_IMAG_VIDEO);
 
     }

@@ -12,8 +12,9 @@ public class FotoVideoAudio implements Serializable {
     String direccion;
     int tipo;
     String descripcion;
+    int idNota;
 
-    public FotoVideoAudio(int id, String nombre, String direccion, int tipo, String descripcion) {
+    public FotoVideoAudio(int id, String nombre, String direccion, int tipo, String descripcion, int idNota) {
         this.id = id;
         this.nombre = nombre;
         this.direccion = direccion;
@@ -55,5 +56,13 @@ public class FotoVideoAudio implements Serializable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public int getIdNota() {
+        return idNota;
+    }
+
+    public void setIdNota(int idNota) {
+        this.idNota = idNota;
     }
 }

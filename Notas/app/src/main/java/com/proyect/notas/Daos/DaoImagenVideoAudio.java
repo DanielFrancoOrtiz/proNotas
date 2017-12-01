@@ -54,7 +54,7 @@ public class DaoImagenVideoAudio {
             do{
                 FotoVideoAudio fot =  new FotoVideoAudio(cur.getInt(0),
                         cur.getString(1),cur.getString(2),cur.getInt(3),
-                        cur.getString(4));
+                        cur.getString(4),cur.getInt(5));
                lista.add(fot);
             }while (cur.moveToNext());
         }
@@ -69,7 +69,7 @@ public class DaoImagenVideoAudio {
             do{
                 FotoVideoAudio fot =  new FotoVideoAudio(cur.getInt(0),
                         cur.getString(1),cur.getString(2),
-                        cur.getInt(3), cur.getString(4));
+                        cur.getInt(3), cur.getString(4),cur.getInt(5));
                 lista.add(fot);
             }while (cur.moveToNext());
         }
@@ -85,7 +85,7 @@ public class DaoImagenVideoAudio {
             do{
                 FotoVideoAudio fot =  new FotoVideoAudio(cur.getInt(0),
                         cur.getString(1),cur.getString(2),cur.getInt(3)
-                ,cur.getString(4));
+                ,cur.getString(4),cur.getInt(5));
                 lista.add(fot);
             }while (cur.moveToNext());
         }
@@ -100,7 +100,7 @@ public class DaoImagenVideoAudio {
             do{
                 FotoVideoAudio fot =  new FotoVideoAudio(cur.getInt(0),
                         cur.getString(1),cur.getString(2),cur.getInt(3),
-                        cur.getString(4));
+                        cur.getString(4),cur.getInt(5));
                 lista.add(fot);
             }while (cur.moveToNext());
         }
@@ -113,10 +113,26 @@ public class DaoImagenVideoAudio {
                 ,"_id = ?",new String[]{String.valueOf(id)},null,null,null);
         if(cur.moveToFirst()){
             return new FotoVideoAudio(cur.getInt(0), cur.getString(1),
-                    cur.getString(2),cur.getInt(3), cur.getString(4));
+                    cur.getString(2),cur.getInt(3), cur.getString(4),cur.getInt(5));
         }
         return null;
+    }
 
+
+    public List<FotoVideoAudio> getMultimediaNota( int idNota){
+        List<FotoVideoAudio> lista = null;
+        Cursor cur = database.query(MiSQLiteOpenHelper.TABLE_IMAG_VIDEO_NAME,MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO
+                ,"idNota = ?",new String[]{String.valueOf(idNota)},null,null,null);
+        if(cur.moveToFirst()){
+            lista = new ArrayList<>();
+            do{
+                FotoVideoAudio fot =  new FotoVideoAudio(cur.getInt(0),
+                        cur.getString(1),cur.getString(2),cur.getInt(3),
+                        cur.getString(4),cur.getInt(5));
+                lista.add(fot);
+            }while (cur.moveToNext());
+        }
+        return lista;
     }
 
 

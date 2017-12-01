@@ -13,12 +13,10 @@ public class NotaTarea implements Serializable {
     private Date fecha;
     private Time hora;
     private int realizada;
-    private String imagen;
-    private String descripcionImagen;
 
 
     public NotaTarea(int id, String titulo, String descripcion, int tipo, Date fecha,
-                     Time hora, int realizada, String imagen,String descripcionImagen) {
+                     Time hora, int realizada) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -26,8 +24,6 @@ public class NotaTarea implements Serializable {
         this.fecha = fecha;
         this.hora = hora;
         this.realizada = realizada;
-        this.imagen=imagen;
-        this.descripcionImagen = descripcionImagen;
     }
 
     public NotaTarea(String titulo, String descripcion, int tipo) {
@@ -97,19 +93,4 @@ public class NotaTarea implements Serializable {
         this.realizada = realizada;
     }
 
-    public String getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
-    }
-
-    public String getDescripcionImagen() {
-        return descripcionImagen;
-    }
-
-    public void setDescripcionImagen(String descripcionImagen) {
-        this.descripcionImagen = descripcionImagen;
-    }
 }

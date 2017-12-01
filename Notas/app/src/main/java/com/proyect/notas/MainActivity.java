@@ -437,7 +437,7 @@ public class MainActivity extends AppCompatActivity
                                 Log.i("path",path);
                             }
                         });
-                new DaoImagenVideoAudio(this).Insert(new FotoVideoAudio(0,nombre,path,1,null));
+                new DaoImagenVideoAudio(this).Insert(new FotoVideoAudio(0,nombre,path,1,null,1));
                 setFragment(2);
                 break;
             case VIDEO:
@@ -448,7 +448,7 @@ public class MainActivity extends AppCompatActivity
                                 Log.i("path",path);
                             }
                         });
-                new DaoImagenVideoAudio(this).Insert(new FotoVideoAudio(0,nombre,path,2,null));
+                new DaoImagenVideoAudio(this).Insert(new FotoVideoAudio(0,nombre,path,2,null,1));
                 break; 
             case AUDIO:
                 Uri uri = data.getData();

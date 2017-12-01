@@ -117,7 +117,7 @@ public class addNota extends Fragment {
         etDate.setInputType(InputType.TYPE_NULL);
         etTime.setInputType(InputType.TYPE_NULL);
         if(getArguments()!= null){
-            path = mParam1.getImagen();
+          //  path = mParam1.getImagen();
 
             etName.setText(mParam1.getTitulo());
             etNote.setText(mParam1.getDescripcion());
@@ -131,11 +131,12 @@ public class addNota extends Fragment {
                 swActivity.setChecked(false);
                 stateOfInterface(false);
             }
+            /*
             if (mParam1.getImagen()!=null){
                 Bitmap bitmap = BitmapFactory.decodeFile(mParam1.getImagen());
                 ivAddNota.setImageBitmap(bitmap);
             }
-
+*/
             if (mParam1.getRealizada()==1){
                 swRealizada.setChecked(true);
             }else{
@@ -161,7 +162,7 @@ public class addNota extends Fragment {
                                     , 2, Date.valueOf(etDate.getText().toString()),
                                     Time.valueOf(etTime.getText().toString()),
 
-                                    1, mParam1.getImagen(), mParam1.getDescripcionImagen()));
+                                    1));
                             Toast.makeText(getActivity(), "Actividad realizada", Toast.LENGTH_LONG).show();
                         }else {
                             Toast.makeText(getActivity(), "Actividad", Toast.LENGTH_LONG).show();
@@ -169,14 +170,14 @@ public class addNota extends Fragment {
                                     , 2, Date.valueOf(etDate.getText().toString()),
                                     Time.valueOf(etTime.getText().toString()),
 
-                                    swRealizada.isChecked()?1:0, mParam1.getImagen(), mParam1.getDescripcionImagen()));
+                                    swRealizada.isChecked()?1:0));
                         }
 
                     } else {
                         new DaoNotaTarea(getContext()).Update(new NotaTarea(mParam1.getId(), etName.getText().toString(), etNote.getText().toString()
                                 , 1, null, null,
 
-                                swRealizada.isChecked()?1:0,mParam1.getImagen(),mParam1.getDescripcionImagen()));
+                                swRealizada.isChecked()?1:0));
                     }
                 }else{
                     if (swActivity.isChecked()) {
@@ -185,13 +186,13 @@ public class addNota extends Fragment {
                                 , 2, Date.valueOf(etDate.getText().toString()),
                                 Time.valueOf(etTime.getText().toString()),
 
-                                swRealizada.isChecked()?1:0,path,null));
+                                swRealizada.isChecked()?1:0));
 
                     } else {
                     new DaoNotaTarea(getContext()).Insert(new NotaTarea(0, etName.getText().toString(), etNote.getText().toString()
                                 , 1, null, null,
 
-                            swRealizada.isChecked()?1:0,path,null));
+                            swRealizada.isChecked()?1:0));
                         Toast.makeText(getActivity(), "Nota", Toast.LENGTH_LONG).show();
                     }
                     
@@ -354,9 +355,7 @@ public class addNota extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==1 &&
                 resultCode == getActivity().RESULT_OK){
-            if (mParam1!=null){
-                mParam1.setImagen(path);
-            }
+
             MediaScannerConnection.scanFile(getContext(), new String[]{path}, null,
                     new MediaScannerConnection.OnScanCompletedListener() {
                         @Override
@@ -364,7 +363,7 @@ public class addNota extends Fragment {
                             Log.i("path",path);
                         }
                     });
-            new DaoImagenVideoAudio(getContext()).Insert(new FotoVideoAudio(0,nombre,path,1,null));
+            new DaoImagenVideoAudio(getContext()).Insert(new FotoVideoAudio(0,nombre,path,1,null,1));
             Bitmap bitmap = BitmapFactory.decodeFile(path);
             ivAddNota.setImageBitmap(bitmap);
             //ivAddNota.setImageBitmap((Bitmap) data.getExtras().get("data"));

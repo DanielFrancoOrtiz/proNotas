@@ -28,8 +28,6 @@ public class DaoNotaTarea {
         cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[4],nota.getFecha()!= null ? nota.getFecha().toString():null);
         cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[5],nota.getHora()!=null ? nota.getHora().toString() : null);
         cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[6],nota.getRealizada());
-        cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[7],nota.getImagen());
-        cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[8],nota.getDescripcionImagen());
         return database.insert(MiSQLiteOpenHelper.TABLE_NOTAS_NAME,null,cv);
     }
     public long Update(NotaTarea nota){
@@ -41,8 +39,6 @@ public class DaoNotaTarea {
         cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[4],nota.getFecha()!= null ? nota.getFecha().toString():null);
         cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[5],nota.getHora()!=null ? nota.getHora().toString() : null);
         cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[6],nota.getRealizada());
-        cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[7],nota.getImagen());
-        cv.put(MiSQLiteOpenHelper.COLUMNS_NOTAS[8],nota.getDescripcionImagen());
 
         return database.update(MiSQLiteOpenHelper.TABLE_NOTAS_NAME,cv,"_id = ?",new String[]{String.valueOf(nota.getId())});
     }
@@ -65,7 +61,7 @@ public class DaoNotaTarea {
                         cur.getInt(3),
                         cur.getString(4)!=null ? Date.valueOf(cur.getString(4)) : null,
                         cur.getString(5)!=null ? Time.valueOf(cur.getString(5)) : null,
-                        cur.getInt(6),cur.getString(7),cur.getString(8));
+                        cur.getInt(6));
                 lista.add(not);
             }while (cur.moveToNext());
         }
@@ -83,7 +79,7 @@ public class DaoNotaTarea {
                     cur.getInt(3),
                     cur.getString(4)!=null ? Date.valueOf(cur.getString(4)) : null,
                     cur.getString(5)!=null ? Time.valueOf(cur.getString(5)) : null,
-                    cur.getInt(6),cur.getString(7),cur.getString(8));
+                    cur.getInt(6));
         }
         return null;
 
