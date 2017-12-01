@@ -4,7 +4,9 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Change the language</string>
+    <string name="action_settings">Change the language (English)</string>
+    <string name="action_settings2">Change the language (Spanish)</string>
+
     <string name="switch1">Activity</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -18,5 +20,6 @@
     <string name="Share">Share</string>
     <string name="Send">Send</string>
     <string name="seccion_title">Communicate</string>
+
 
 </resources>

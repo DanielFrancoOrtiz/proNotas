@@ -131,7 +131,8 @@ public class MainActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-    boolean language=false;
+    Locale locale;
+    Configuration config = new Configuration();
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -139,28 +140,28 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            if(language=false){
-                Locale locale = new Locale("en");
-                Locale.setDefault(locale);
-                Configuration config = new Configuration();
-                config.locale = locale;
-                language=true;
-            }else {
-                Locale locale = new Locale("es");
-                Locale.setDefault(locale);
-                Configuration config = new Configuration();
-                config.locale = locale;
-                language=false;
-            }
-
+            Toast.makeText(getApplicationContext(),"Español",Toast.LENGTH_LONG).show();
+            locale = new Locale("es");
+            config.locale =locale;
+            getResources().updateConfiguration(config, null);
+            Intent refresh = new Intent(MainActivity.this, MainActivity.class);
+            startActivity(refresh);
+            finish();
+            return true;
+        }else if(id == R.id.action_settings2){
+            Toast.makeText(getApplicationContext(),"English",Toast.LENGTH_LONG).show();
+            locale = new Locale("en");
+            config.locale =locale;
+            getResources().updateConfiguration(config, null);
+            Intent refresh = new Intent(MainActivity.this, MainActivity.class);
+            startActivity(refresh);
+            finish();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
 
 
 /*
