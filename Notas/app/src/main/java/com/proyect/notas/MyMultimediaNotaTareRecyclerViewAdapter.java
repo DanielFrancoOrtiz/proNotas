@@ -8,12 +8,11 @@ import android.widget.TextView;
 
 import com.proyect.notas.Daos.FotoVideoAudio;
 import com.proyect.notas.MultimediaNotaTareFragment.OnListFragmentInteractionListener;
-import com.proyect.notas.dummy.DummyContent.DummyItem;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
@@ -37,8 +36,9 @@ public class MyMultimediaNotaTareRecyclerViewAdapter extends RecyclerView.Adapte
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getId());
+        holder.mIdView.setText(mValues.get(position).getId()+"");
         holder.mContentView.setText(mValues.get(position).getDescripcion());
+        holder.mNameView.setText(mValues.get(position).getNombre());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +61,7 @@ public class MyMultimediaNotaTareRecyclerViewAdapter extends RecyclerView.Adapte
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
+        public final TextView mNameView;
         public FotoVideoAudio mItem;
 
         public ViewHolder(View view) {
@@ -68,6 +69,7 @@ public class MyMultimediaNotaTareRecyclerViewAdapter extends RecyclerView.Adapte
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.idMultimedia);
             mContentView = (TextView) view.findViewById(R.id.contentMultimedia);
+            mNameView = (TextView) view.findViewById(R.id.nombreMultimedia);
         }
 
         @Override

@@ -14,8 +14,6 @@ import android.widget.Toast;
 import com.proyect.notas.Daos.DaoImagenVideoAudio;
 import com.proyect.notas.Daos.FotoVideoAudio;
 import com.proyect.notas.Daos.NotaTarea;
-import com.proyect.notas.dummy.DummyContent;
-import com.proyect.notas.dummy.DummyContent.DummyItem;
 
 import java.util.List;
 
