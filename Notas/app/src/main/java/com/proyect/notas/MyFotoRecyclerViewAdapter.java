@@ -82,7 +82,7 @@ public class MyFotoRecyclerViewAdapter extends RecyclerView.Adapter<MyFotoRecycl
 
 
 
-        holder.textView.setText(mDataset.get(position).getNombre()+"\n"+mDataset.get(position).getDescripcion());
+        holder.textView.setText(mDataset.get(position).getNombre()+"\n"+mDataset.get(position).getDescripcion()+mDataset.get(position).getIdNota());
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

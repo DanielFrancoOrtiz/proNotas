@@ -39,6 +39,7 @@ public class DaoImagenVideoAudio {
         cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[2],obj.getDireccion());
         cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[3],obj.getTipo());
         cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[4], obj.getDescripcion());
+        cv.put(MiSQLiteOpenHelper.COLUMNS_IMAG_VIDEO[5],obj.getIdNota());
         return database.update(MiSQLiteOpenHelper.TABLE_IMAG_VIDEO_NAME,cv,"_id = ?",new String[]{String.valueOf(obj.getId())});
     }
     public long Delete(int id){

@@ -44,13 +44,15 @@ import com.proyect.notas.Daos.NotaTarea;
 
 
 import java.io.File;
+import java.nio.channels.MulticastChannel;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, addNota.OnFragmentInteractionListener,
         NotaTareaFragment.OnListFragmentInteractionListener, FotoFragment.OnListFragmentInteractionListener,
         VideoFragment.OnListFragmentInteractionListener,viewVideo.OnFragmentInteractionListener,
-        audioRecorderFragment.OnFragmentInteractionListener,AudioFragment.OnListFragmentInteractionListener{
+        audioRecorderFragment.OnFragmentInteractionListener,AudioFragment.OnListFragmentInteractionListener,
+        MultimediaFragment.OnListFragmentInteractionListener, MultimediaNotaTareFragment.OnListFragmentInteractionListener{
 
     /*
     Esta variable se utilizara para saber cual de las opciones del menu
@@ -336,6 +338,8 @@ public class MainActivity extends AppCompatActivity
             new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
+                    FragmentManager fragmentManager;
+                    FragmentTransaction fragmentTransaction;
                     switch(i){
                         case 0:
                             daoNotaTarea.Delete(item.getId());
@@ -344,8 +348,7 @@ public class MainActivity extends AppCompatActivity
                             break;
                         case 1:
                             txtTitle.setText(getString(R.string.title_of_add_nota));
-                            FragmentManager fragmentManager;
-                            FragmentTransaction fragmentTransaction;
+
                             fragmentManager = getSupportFragmentManager();
                             fragmentTransaction = fragmentManager.beginTransaction();
                             addNota nota = addNota.newInstance(item);
@@ -354,8 +357,26 @@ public class MainActivity extends AppCompatActivity
                             fragmentTransaction.commit();
                             dialogInterface.dismiss();
                             break;
+                        case 2:
+                            fragmentManager=getSupportFragmentManager();
+                            fragmentTransaction=fragmentManager.beginTransaction();
+                            MultimediaFragment mf = MultimediaFragment.newInstance(item);
+                            fragmentTransaction.replace(R.id.fragment,mf);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+                            dialogInterface.dismiss();
+                            break;
                         case 3:
-
+                            fragmentManager=getSupportFragmentManager();
+                            fragmentTransaction=fragmentManager.beginTransaction();
+                            MultimediaNotaTareFragment mfnt =new MultimediaNotaTareFragment();
+                            Bundle args = new Bundle();
+                            args.putSerializable("NotaTarea", item);
+                            mfnt.setArguments(args);
+                            fragmentTransaction.replace(R.id.fragment,mfnt);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+                            dialogInterface.dismiss();
                             break;
                     }
                 }
@@ -554,5 +575,14 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.replace(R.id.fragment, v);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+    @Override
+    public void onListFragmentInteraction(FotoVideoAudio item, boolean f, boolean f2) {
+
+    }
+
+    @Override
+    public void onListFragmentInteraction(FotoVideoAudio item, String s) {
+
     }
 }

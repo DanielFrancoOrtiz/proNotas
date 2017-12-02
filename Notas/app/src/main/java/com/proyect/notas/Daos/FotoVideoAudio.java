@@ -20,6 +20,7 @@ public class FotoVideoAudio implements Serializable {
         this.direccion = direccion;
         this.tipo=tipo;
         this.descripcion=descripcion;
+        this.idNota=idNota;
     }
 
     public int getId() {

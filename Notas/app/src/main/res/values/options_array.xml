@@ -4,6 +4,7 @@
     <array name="options">
         <item>Delete</item>
         <item>Edit</item>
-        <item>Add image to this note</item>
+        <item>Add multimedia to this note</item>
+        <item>Show multimedia of this note</item>
     </array>
 </resources>

@@ -24,4 +24,7 @@
     <string name="hint_time">Time</string>
     <string name="hint_name">Name</string>
     <string name="hint_note">Write your note...</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="multimedia">Multimedia</string>
 </resources>

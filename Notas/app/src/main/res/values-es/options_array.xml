@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="options">
+        <item>Eliminar</item>
+        <item>Editar</item>
+        <item>Agregar multimedia</item>
+        <item>Mostrar multimedia de esta nota</item>
+    </array>
+</resources>
