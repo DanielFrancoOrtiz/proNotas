@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -62,9 +63,18 @@ public class MyMultimediaRecyclerViewAdapter extends RecyclerView.Adapter<MyMult
             public void onClick(View view) {
                 Toast.makeText(view.getContext() ,item.getId()+"",Toast.LENGTH_LONG).show();
 
-                mValues.get(position).setIdNota(item.getId());
-                new DaoImagenVideoAudio(view.getContext()).Update(mValues.get(position));
-                holder.chkAddNota.setChecked(true);
+
+                if (holder.chkAddNota.isChecked()){
+
+                    mValues.get(position).setIdNota(0);
+                    new DaoImagenVideoAudio(view.getContext()).Update(mValues.get(position));
+                    holder.chkAddNota.setChecked(true);
+                }else{
+                    mValues.get(position).setIdNota(item.getId());
+                    new DaoImagenVideoAudio(view.getContext()).Update(mValues.get(position));
+                    holder.chkAddNota.setChecked(true);
+                }
+
 
 
             }
@@ -82,14 +92,15 @@ public class MyMultimediaRecyclerViewAdapter extends RecyclerView.Adapter<MyMult
         public final TextView mContentView;
         public FotoVideoAudio mItem;
         public ImageView imageView;
-        public CheckedTextView chkAddNota;
+        public CheckBox chkAddNota;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.id);
             mContentView = (TextView) view.findViewById(R.id.content);
-            chkAddNota=(CheckedTextView)  view.findViewById(R.id.checkedTextView);
+            chkAddNota=(CheckBox)  view.findViewById(R.id.chkAddNota);
+            chkAddNota.setEnabled(false);
 
         }
 

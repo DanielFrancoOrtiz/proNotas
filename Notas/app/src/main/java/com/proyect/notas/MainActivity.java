@@ -584,5 +584,30 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onListFragmentInteraction(FotoVideoAudio item, String s) {
 
+        FragmentManager fragmentManager;
+        FragmentTransaction fragmentTransaction;
+        switch (item.getTipo()){
+            case 1:
+                openInGallery(item.getDireccion());
+                break;
+            case 2:
+                txtTitle.setText(R.string.Videos);
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                viewVideo v = viewVideo.newInstance(item);
+                fragmentTransaction.replace(R.id.fragment, v);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+                break;
+            case 3:
+                txtTitle.setText(R.string.Audios);
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                audioRecorderFragment a = audioRecorderFragment.newInstance(item,"");
+                fragmentTransaction.replace(R.id.fragment, a);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+                break;
+        }
     }
 }
