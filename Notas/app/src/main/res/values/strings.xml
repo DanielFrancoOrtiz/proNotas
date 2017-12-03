@@ -26,4 +26,14 @@
     <string name="hint_note">Write your note...</string>
 
 
+    <string name="str_en" >English</string>
+    <string name="str_es" >Spanish</string>
+
+    <string-array name="languages" >
+        <item>@string/str_en</item>
+        <item>@string/str_es</item>
+    </string-array>
+
+
+
 </resources>

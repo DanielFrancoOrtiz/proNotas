@@ -94,7 +94,6 @@ public class addNota extends Fragment {
     EditText etDate;
     Switch swActivity;
     Switch swRealizada;
-    ImageView ivAddNota;
 
     String nombre;
     String path;
@@ -112,7 +111,6 @@ public class addNota extends Fragment {
         etDate = (EditText) v.findViewById(R.id.etDate);
         swActivity = (Switch) v.findViewById(R.id.swActivity);
         swRealizada =(Switch) v.findViewById(R.id.swRealizada);
-        ivAddNota =(ImageView) v.findViewById(R.id.ivAddNota);
 
         etDate.setInputType(InputType.TYPE_NULL);
         etTime.setInputType(InputType.TYPE_NULL);
@@ -235,38 +233,7 @@ public class addNota extends Fragment {
         });
 
 
-        ivAddNota.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"imgNotas");
-        /*
-        se verifica si la carpeta ya existe.
-            si no existe se crea
-        * */
-                boolean existe = file.exists();
-                if (!existe){
-                    existe = file.mkdirs();
-                }
-                if (existe) {
-            /*
-            * se crea el nombre que tendra la imagen
-            * */
-                    Long consecutivo = System.currentTimeMillis() / 1000;
-                    nombre = consecutivo.toString() + ".jpg";
-                    //se asigna la ruta en que sera guardada
-                    path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) +
-                            File.separator + "imgNotas" + File.separator + nombre;
 
-                    archivoAG = new File(path);
-                    //Se crea el intent que permitira utilizar la camara del celular
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    //se le asigna el archivo que representara la imagen
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(archivoAG));
-                    startActivityForResult(intent, 1);
-                }
-            }
-
-        });
         return v;
     }
 
@@ -353,21 +320,7 @@ public class addNota extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==1 &&
-                resultCode == getActivity().RESULT_OK){
 
-            MediaScannerConnection.scanFile(getContext(), new String[]{path}, null,
-                    new MediaScannerConnection.OnScanCompletedListener() {
-                        @Override
-                        public void onScanCompleted(String path, Uri uri) {
-                            Log.i("path",path);
-                        }
-                    });
-            new DaoImagenVideoAudio(getContext()).Insert(new FotoVideoAudio(0,nombre,path,1,null,1));
-            Bitmap bitmap = BitmapFactory.decodeFile(path);
-            ivAddNota.setImageBitmap(bitmap);
-            //ivAddNota.setImageBitmap((Bitmap) data.getExtras().get("data"));
-        }
 
     }
 }

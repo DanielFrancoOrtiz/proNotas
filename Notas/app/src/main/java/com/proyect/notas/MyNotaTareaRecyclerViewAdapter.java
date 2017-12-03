@@ -48,9 +48,7 @@ public class MyNotaTareaRecyclerViewAdapter extends RecyclerView.Adapter<MyNotaT
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    //mListener.onListFragmentInteraction(holder.mItem,false);
+
                     if(holder.mDescriptionView.getText()!=""){
                         holder.mDescriptionView.setEnabled(false);
                         holder.mDescriptionView.setText("");

@@ -22,14 +22,7 @@ import java.io.IOException;
 import java.util.Calendar;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link audioRecorderFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link audioRecorderFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class audioRecorderFragment extends Fragment implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -132,14 +125,13 @@ public class audioRecorderFragment extends Fragment implements MediaPlayer.OnPre
     private void startGrabar() {
         fab.setImageDrawable(getResources().getDrawable(R.drawable.microphone));
         Calendar c = Calendar.getInstance();
-        String name = c.get(Calendar.MONTH)+""+c.get(Calendar.DAY_OF_MONTH)
-                +""+c.get(Calendar.YEAR)+""+c.get(Calendar.HOUR)+""+c.get(Calendar.MINUTE)+""+c.get(Calendar.SECOND)+".mp3";
+        String name =new Info().NRAudio();
         mr = new MediaRecorder();
         mr.setAudioSource(MediaRecorder.AudioSource.MIC);
         mr.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
         File audio = new File(dir, name);
-        FotoVideoAudio audio1=new FotoVideoAudio(0,name,audio.getAbsolutePath()+name,3,null,1);
+        FotoVideoAudio audio1=new FotoVideoAudio(0,name,audio.getAbsolutePath()+name,3,null,0);
         new DaoImagenVideoAudio(getActivity()).Insert(audio1);
         mitem=audio1;
         mr.setOutputFile(audio.getAbsolutePath());
@@ -167,26 +159,12 @@ public class audioRecorderFragment extends Fragment implements MediaPlayer.OnPre
         grabando=false;
     }
     private void startReproducir(){
-        //Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
-        //Uri data = Uri.parse(mitem.getdireccion());;
-        //String mime = "*/*";
-        /*MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        if (mimeTypeMap.hasExtension(
-                mimeTypeMap.getFileExtensionFromUrl(data.toString())))
-            mime = mimeTypeMap.getMimeTypeFromExtension(
-                    mimeTypeMap.getFileExtensionFromUrl(data.toString()));
-        intent.setDataAndType(data,mime);
-        startActivity(intent);
-        */
-        //mp = new MediaPlayer();
+
         fab1.setImageDrawable(getResources().getDrawable(R.drawable.stop));
         File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
         File audio = new File(dir.getAbsolutePath()+mitem.getNombre());
         try {
-            /*mp.setDataSource(dir.getAbsolutePath()+mitem.getNombre());
-            mp.set
-            mp.prepareAsync();
-            mp.start();*/
+
             Uri datos = Uri.parse(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
                     .getPath() + "/"+mitem.getNombre());
             mp = MediaPlayer.create(getActivity(), datos);

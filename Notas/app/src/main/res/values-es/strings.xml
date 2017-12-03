@@ -5,8 +5,7 @@
     <string name="navigation_drawer_open">Abrir menu de navegacion</string>
     <string name="navigation_drawer_close">Cerrar menu de navegacion</string>
     <string name="title_of_add_nota">Agregar Nota</string>
-    <string name="action_settings">Cambiar idioma (Español)</string>
-    <string name="action_settings2">Cambiar idioma(Ingles)</string>
+    <string name="action_settings">Cambiar idioma</string>
     <string name="List_notes">Notas</string>
     <string name="switch1">Actividad</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -27,5 +26,8 @@
     <string name="edit">Editar</string>
     <string name="delete">Eliminar</string>
     <string name="multimedia">Multimedia</string>
+
+    <string name="str_en" >Ingles</string>
+    <string name="str_es" >Español</string>
 
 </resources>

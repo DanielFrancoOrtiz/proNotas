@@ -63,7 +63,11 @@ public class MainActivity extends AppCompatActivity
     private final int  FOTO = 1;
     private final int  VIDEO = 2;
     private final int AUDIO =3;
-    TextView txtTitle;
+    private TextView txtTitle;
+    private String path;
+    private String nombre;
+    private File archivoAG;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,24 +98,22 @@ public class MainActivity extends AppCompatActivity
                         Audio();
                         break;
                     case 2:
-                       //startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),1001);
-                        //setFragment(6);
-                        //dispatchTakePictureIntent();
-                        Camara();
+                       //caso de agregar foto
+                       verificarCarper();
 
                        break;
                     case 3:
-                        //setFragment(7);
-                        Video();
+                        //caso de agregar video
+                        verificarCarper();
                         break;
                     case 4:
-                        Snackbar.make(view, "Opcion de agregar nota ", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                       //cso de agregar nota
                         setFragment(8);
                         break;
                     case 5:
                         break;
                         default:
+                            //como default esta la opcion de agregar nota
                             setFragment(8);
                             break;
 
@@ -153,25 +155,43 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
+        int id = item.getItemId();
+        //operacion para el cambio de idiomas
         if (id == R.id.action_settings) {
-            Toast.makeText(getApplicationContext(),"Español",Toast.LENGTH_LONG).show();
-            locale = new Locale("es");
-            config.locale =locale;
-            getResources().updateConfiguration(config, null);
-            Intent refresh = new Intent(MainActivity.this, MainActivity.class);
-            startActivity(refresh);
-            finish();
-            return true;
-        }else if(id == R.id.action_settings2){
-            Toast.makeText(getApplicationContext(),"English",Toast.LENGTH_LONG).show();
-            locale = new Locale("en");
-            config.locale =locale;
-            getResources().updateConfiguration(config, null);
-            Intent refresh = new Intent(MainActivity.this, MainActivity.class);
-            startActivity(refresh);
-            finish();
+            //se crea un AlertDialog para poner las opciones de idiomas disponibles
+            AlertDialog.Builder b = new AlertDialog.Builder(this);
+
+            //obtiene los idiomas del array de string.xml
+            String[] types = getResources().getStringArray(R.array.languages);
+            //dependiendo del item que seleccion se elige el nuevo idioma
+            b.setItems(types, new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    dialog.dismiss();
+                    switch(which){
+                        case 0:
+                            locale = new Locale("en");
+                            config.locale =locale;
+                            break;
+                        case 1:
+                            locale = new Locale("es");
+                            config.locale =locale;
+                            break;
+                    }
+                    //se establecen los nuevos valores de configuracion y se refresca el programa
+                    getResources().updateConfiguration(config, null);
+                    Intent refresh = new Intent(MainActivity.this, MainActivity.class);
+                    startActivity(refresh);
+                    finish();
+                }
+
+            });
+
+            b.show();
+
             return true;
         }
 
@@ -179,19 +199,19 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-/*
-* Se asignan los valores a la variable opcion
-* */
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        /*
+            * Se asignan los valores a la variable opcion y se colocan los fragmentos correspondientes
+        * */
         int id = item.getItemId();
 
         if (id == R.id.nav_audio) {
             opcion = 1;
             setFragment(1);
-            // Handle the camera action
         } else if (id == R.id.nav_gallery) {
             opcion = 2;
             setFragment(2);
@@ -201,10 +221,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_note) {
             opcion = 4;
             setFragment(4);
-        } else if (id == R.id.nav_share) {
-            opcion = 5;
-        } else if (id == R.id.nav_send) {
-            opcion = 6;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -212,15 +228,16 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    /*
+
+    public void setFragment(int position) {
+         /*
     * dependiendo de la opcion, se agrega el fragmento correspondiente
     * */
-    public void setFragment(int position) {
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;
         int rotacion = getWindowManager().getDefaultDisplay().getRotation();
         if (rotacion == Surface.ROTATION_0 || rotacion == Surface.ROTATION_180) {
-            //...hacer lo que quiera con la pantalla vertical
+            //pantalla vertical
             switch (position) {
 
                 case 1:
@@ -270,7 +287,7 @@ public class MainActivity extends AppCompatActivity
                     break;
             }
         } else {
-            //...hacer lo que quiera con la pantalla horizontal
+            //En caso de pantalla horizontal
             switch (position) {
 
                 case 1:
@@ -331,8 +348,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onListFragmentInteraction(final NotaTarea item, boolean flag) {
         if(flag){
-
             final DaoNotaTarea daoNotaTarea = new DaoNotaTarea(this);
+            //Se muestra el AlerDialog que permite manipular las Notas agregadas, dependiendo del item
+            //puede eliminar, editar, agregar multimedia o mostrar la multimedia de la nota
             final AlertDialog.Builder alertDialog = new AlertDialog.Builder(
                     MainActivity.this).setTitle(getString(R.string.title_dialog)).setItems(R.array.options,
             new DialogInterface.OnClickListener() {
@@ -342,11 +360,13 @@ public class MainActivity extends AppCompatActivity
                     FragmentTransaction fragmentTransaction;
                     switch(i){
                         case 0:
+                            //caso de eliminar la nota
                             daoNotaTarea.Delete(item.getId());
                             setFragment(4);
                             dialogInterface.dismiss();
                             break;
                         case 1:
+                            //caso de Editar la nota
                             txtTitle.setText(getString(R.string.title_of_add_nota));
 
                             fragmentManager = getSupportFragmentManager();
@@ -358,6 +378,7 @@ public class MainActivity extends AppCompatActivity
                             dialogInterface.dismiss();
                             break;
                         case 2:
+                            //Caso de agregar multimedia a la nota
                             fragmentManager=getSupportFragmentManager();
                             fragmentTransaction=fragmentManager.beginTransaction();
                             MultimediaFragment mf = MultimediaFragment.newInstance(item);
@@ -367,6 +388,7 @@ public class MainActivity extends AppCompatActivity
                             dialogInterface.dismiss();
                             break;
                         case 3:
+                            //caso de mostrar la multimedia de la nota
                             fragmentManager=getSupportFragmentManager();
                             fragmentTransaction=fragmentManager.beginTransaction();
                             MultimediaNotaTareFragment mfnt =new MultimediaNotaTareFragment();
@@ -387,55 +409,58 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    String path;
-    String nombre;
-    File archivoAG;
-    public void Camara()
-    {
-        //se crea una carpeta en el directorio externo
-        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"imgNotas");
-        /*
-        se verifica si la carpeta ya existe.
-            si no existe se crea
-        * */
+
+    public void verificarCarper(){
+       //metodo para verificar si la carpeta en donde se guardaran las fotos y los videos existe,
+        // en caso de que no exista se creara la carpeta
+        File file = new Info().creaCarpeta();
         boolean existe = file.exists();
-        if (!existe){
+        if (!existe){//se crea una carpeta en el directorio externo
             existe = file.mkdirs();
         }
+        //dependiendo de la opcion seleccionada, se mandara al metodo de tomar una foto o al metodo
+        //de gragar un video
         if (existe){
-            /*
-            * se crea el nombre que tendra la imagen
-            * */
-            Long consecutivo = System.currentTimeMillis()/1000;
-            nombre = consecutivo.toString()+".jpg";
-            //se asigna la ruta en que sera guardada
-            path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) +
-                    File.separator+"imgNotas"+File.separator+nombre;
-
-            archivoAG = new File(path);
-            //Se crea el intent que permitira utilizar la camara del celular
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            //se le asigna el archivo que representara la imagen
-            intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(archivoAG));
-            startActivityForResult(intent,FOTO);
+            switch (opcion){
+                case 2:
+                    Camara();
+                    break;
+                case 3:
+                    Video();
+                    break;
+            }
 
         }
     }
+
+    public void Camara()
+    {
+        //se asigna el nombre de la imagen
+        nombre = new Info().NRImagen();
+        //se asigna la ruta en que sera guardada
+        path = new Info().direccion(nombre);
+        archivoAG = new File(path);
+        //Se crea el intent que permitira utilizar la camara del celular
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        //se le asigna el archivo que representara la imagen
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(archivoAG));
+        startActivityForResult(intent,FOTO);
+
+
+    }
     private void Video() {
+        //se asigna el nombre del video
+        nombre = new Info().NRVideo();
+        //se asigna la ruta en donde se guardara
+        path =new Info().direccion(nombre);
+        archivoAG = new File(path);
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-            Long consecutivo = System.currentTimeMillis()/1000;
-            nombre = consecutivo.toString()+".mp4";
-            path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) +
-                File.separator+"imgNotas"+File.separator+nombre;
-            archivoAG = new File(path);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(archivoAG));
-
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(archivoAG));
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY,1);
-
         startActivityForResult(intent, VIDEO);
     }
     public void Audio(){
-        txtTitle.setText(getString(R.string.addAudio));
+        //se llama al fragmento que permitira grabar el audio
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         audioRecorderFragment audioRecorder = new audioRecorderFragment();
@@ -449,8 +474,7 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch ((requestCode)){
-            case  FOTO:
-                //se escanea la imagen
+            case  FOTO://Se guada la foto en la base de datos y se muestra el fragmento de fotos
                 MediaScannerConnection.scanFile(getApplicationContext(), new String[]{path}, null,
                         new MediaScannerConnection.OnScanCompletedListener() {
                             @Override
@@ -458,10 +482,10 @@ public class MainActivity extends AppCompatActivity
                                 Log.i("path",path);
                             }
                         });
-                new DaoImagenVideoAudio(this).Insert(new FotoVideoAudio(0,nombre,path,1,null,1));
+                new DaoImagenVideoAudio(this).Insert(new FotoVideoAudio(0,nombre,path,1,null,0));
                 setFragment(2);
                 break;
-            case VIDEO:
+            case VIDEO://Se guada el video en la base de datos y se muestra el fragmento de videos
                 MediaScannerConnection.scanFile(getApplicationContext(), new String[]{path}, null,
                         new MediaScannerConnection.OnScanCompletedListener() {
                             @Override
@@ -469,25 +493,18 @@ public class MainActivity extends AppCompatActivity
                                 Log.i("path",path);
                             }
                         });
-                new DaoImagenVideoAudio(this).Insert(new FotoVideoAudio(0,nombre,path,2,null,1));
-                break; 
-            case AUDIO:
+                new DaoImagenVideoAudio(this).Insert(new FotoVideoAudio(0,nombre,path,2,null,0));
+            break;
+            case AUDIO://se obtienen los datos del audio, se crea un mediaplayer y se ejecuta
                 Uri uri = data.getData();
-                Toast.makeText(this, uri != null ? uri.toString() : null,Toast.LENGTH_LONG+Toast.LENGTH_LONG);
                 MediaPlayer mediaPlayer = MediaPlayer.create(this, uri);
                 mediaPlayer.start();
-                MediaScannerConnection.scanFile(getApplicationContext(), new String[]{path}, null,
-                        new MediaScannerConnection.OnScanCompletedListener() {
-                            @Override
-                            public void onScanCompleted(String path, Uri uri) {
-                                Log.i("path",path);
-                            }
-                        });
                 break;
         }
     }
 
     private void checkPermissions() {
+        //se verifican los permisos
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!=
                 PackageManager.PERMISSION_GRANTED){
             if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
@@ -531,6 +548,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void openInGallery(String imageId) {
+        //se permite abrir la imagen en la galeria
         File file = new File(imageId);
         Uri uri =  Uri.fromFile(file);
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
@@ -553,6 +571,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onListFragmentInteraction(FotoVideoAudio item, boolean flag) {
         //this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        // se muestra el fragmento en donde se reproducira el Video
         txtTitle.setText(R.string.Videos);
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;
@@ -566,6 +585,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(FotoVideoAudio item, int i) {
+        //se muestra el fragmento en donde se reproducira el audio
         txtTitle.setText(R.string.Audios);
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;

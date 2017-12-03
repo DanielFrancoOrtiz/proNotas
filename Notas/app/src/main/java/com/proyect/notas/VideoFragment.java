@@ -68,7 +68,8 @@ public class VideoFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
             if(new DaoImagenVideoAudio(getActivity()).getAllFotos()!=null) {
-                recyclerView.setAdapter(new MyVideoRecyclerViewAdapter(new DaoImagenVideoAudio(getActivity()).getAllVideos(), mListener));
+                recyclerView.setAdapter(new MyVideoRecyclerViewAdapter
+                        (new DaoImagenVideoAudio(getActivity()).getAllVideos(), mListener));
             }
         }
         return view;

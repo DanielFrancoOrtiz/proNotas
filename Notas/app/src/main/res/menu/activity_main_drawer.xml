@@ -20,17 +20,4 @@
             android:title="@string/Notes" />
     </group>
 
-    <item android:title="@string/seccion_title">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/Send" />
-        </menu>
-    </item>
-
 </menu>

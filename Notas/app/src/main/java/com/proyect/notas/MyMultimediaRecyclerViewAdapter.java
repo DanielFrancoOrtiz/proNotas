@@ -83,7 +83,7 @@ public class MyMultimediaRecyclerViewAdapter extends RecyclerView.Adapter<MyMult
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return mValues!=null? mValues.size(): 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

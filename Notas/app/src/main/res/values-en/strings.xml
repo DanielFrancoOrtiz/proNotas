@@ -4,8 +4,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_of_add_nota">Add Note</string>
-    <string name="action_settings">Change the language (Spanish)</string>
-    <string name="action_settings2">Change the language (English)</string>
+    <string name="action_settings">Change the language</string>
     <string name="List_notes">Notes</string>
     <string name="switch1">Activity</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -27,4 +26,7 @@
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="multimedia">Multimedia</string>
+    <string name="str_en" >English</string>
+    <string name="str_es" >Spanish</string>
+
 </resources>
