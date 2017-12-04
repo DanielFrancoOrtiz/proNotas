@@ -9,18 +9,24 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabRecordAudio"
-        android:layout_width="153dp"
-        android:layout_height="129dp"
-        android:layout_gravity="top|center"
-        android:layout_marginTop="20dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="top|left"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="80dp"
         android:clickable="true"
-        android:src="@drawable/microphone_off" />
+        android:src="@drawable/microphone_off"
+        app:backgroundTint="@android:color/background_light"
+        app:rippleColor="@color/cardview_dark_background" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabPlayAudio"
-        android:layout_width="153dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="top|right"
+        android:layout_marginRight="70dp"
+        android:layout_marginTop="80dp"
         android:clickable="true"
-        android:src="@drawable/play" />
+        android:src="@drawable/play"
+        app:backgroundTint="@android:color/background_light" />
 </FrameLayout>

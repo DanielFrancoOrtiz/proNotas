@@ -37,10 +37,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.65999997">
 
-        <ImageView
-            android:id="@+id/imageView4"
+        <DatePicker
+            android:id="@+id/datePicker"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/icon" />
+            android:layout_height="wrap_content" />
     </FrameLayout>
 </android.support.constraint.ConstraintLayout>

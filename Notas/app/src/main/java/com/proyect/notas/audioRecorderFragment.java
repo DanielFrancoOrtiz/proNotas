@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.proyect.notas.Daos.DaoImagenVideoAudio;
 import com.proyect.notas.Daos.FotoVideoAudio;
@@ -85,8 +86,10 @@ public class audioRecorderFragment extends Fragment implements MediaPlayer.OnPre
             @Override
             public void onClick(View view) {
                 if(grabando){
+                    Toast.makeText(getContext(),"Grabado",Toast.LENGTH_LONG).show();
                     stopGrabar();
                 }else{
+                    Toast.makeText(getContext(),"Grabando...",Toast.LENGTH_LONG).show();
                     startGrabar();
                 }
             }
@@ -97,7 +100,9 @@ public class audioRecorderFragment extends Fragment implements MediaPlayer.OnPre
             public void onClick(View view) {
                     if(reproduciendo){
                         stopReproducir();
+                        Toast.makeText(getContext(),"Detenido",Toast.LENGTH_LONG).show();
                     }else{
+                        Toast.makeText(getContext(),"Reproduciendo",Toast.LENGTH_LONG).show();
                     startReproducir();}
 
 
