@@ -1,13 +1,19 @@
 package com.proyect.notas;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.proyect.notas.AudioFragment.OnListFragmentInteractionListener;
+import com.proyect.notas.Daos.DaoImagenVideoAudio;
 import com.proyect.notas.Daos.FotoVideoAudio;
 
 import java.util.List;
@@ -35,9 +41,9 @@ public class MyAudioRecyclerViewAdapter extends RecyclerView.Adapter<MyAudioRecy
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = mValues.get(position);
-        holder.mContentView.setText(mValues.get(position).getNombre());
+        holder.mContentView.setText(mValues.get(position).getNombre()+"\n"+mValues.get(position).getDescripcion());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +55,51 @@ public class MyAudioRecyclerViewAdapter extends RecyclerView.Adapter<MyAudioRecy
                 }
             }
         });
+        holder.imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(final View v) {
+                //Investigar AlertDialog para tex
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(v.getContext());
+                alertDialog.setTitle("Descripcion");
+                alertDialog.setMessage("Introduce una descripcion");
+
+                final EditText input = new EditText(v.getContext());
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                input.setLayoutParams(lp);
+                alertDialog.setView(input);
+                alertDialog.setPositiveButton("YES",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Aqui se asigna el texto del input
+
+                                mValues.get(position).setDescripcion(input.getText().toString());
+                                new DaoImagenVideoAudio(v.getContext()).Update(mValues.get(position));
+
+                                Toast.makeText(v.getContext(),"Descripcion agregada: " ,Toast.LENGTH_LONG).show();
+
+                                holder.mContentView.setText(mValues.get(position).getNombre()+"\n"+mValues.get(position).getDescripcion());
+                                new DaoImagenVideoAudio(v.getContext()).Update(mValues.get(position));
+                            }
+
+                        });
+
+                alertDialog.setNegativeButton("NO",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+
+
+
+                alertDialog.show();
+
+                return false;
+            }
+        });
+
     }
 
     @Override
