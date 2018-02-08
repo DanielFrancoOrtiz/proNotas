@@ -84,7 +84,28 @@ public class DaoNotaTarea {
         return null;
 
     }
+    public List<NotaTarea> getActivitys(){
+        List<NotaTarea> lista = null;
+        Cursor cur = database.query(MiSQLiteOpenHelper.TABLE_NOTAS_NAME,MiSQLiteOpenHelper.COLUMNS_NOTAS,
+                "tipo = ? and realizada = ?",
+                new String[]{String.valueOf(2),String.valueOf(0)},null,null,null);
+        if (cur.moveToFirst()){
+            lista = new ArrayList<>();
+            do{
+                NotaTarea not = new NotaTarea(
+                        cur.getInt(0),
+                        cur.getString(1),
+                        cur.getString(2),
+                        cur.getInt(3),
+                        cur.getString(4)!=null ? Date.valueOf(cur.getString(4)) : null,
+                        cur.getString(5)!=null ? Time.valueOf(cur.getString(5)) : null,
+                        cur.getInt(6));
+                lista.add(not);
+            }while (cur.moveToNext());
+        }
 
+        return lista;
+    }
 
 
 }

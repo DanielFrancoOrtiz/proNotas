@@ -10,12 +10,9 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.app.NotificationCompat;
 
-import com.proyect.notas.Daos.NotaTarea;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
 
 public class Servicio extends Service {
 
@@ -24,25 +21,31 @@ public class Servicio extends Service {
 
     }
 
-    //hilo h;
+    hilo h;
     @Override
     public int onStartCommand(Intent intent,int flag,int idProcess){
-/*
+
+        try{
         if(h==null) {
             h = new hilo();
             h.start();
         }
-*/
+        }catch (Exception err){
+
+        }
+
         return START_STICKY;
     }
 
     @Override
     public void onDestroy(){
-/*
+        try{
         if(h.isAlive()) {
             h.stop();
         }
-    */
+        }catch (Exception err){
+
+        }
     }
 
 
@@ -52,8 +55,7 @@ public class Servicio extends Service {
         return null;
     }
 
-
-    private ArrayList<NotaTarea> listarecordatorios = new ArrayList<>() ;
+    //private ArrayList<Recordatorio> listarecordatorios = new ArrayList<>() ;
     int x=0;
     public void btnNoti_click(String Titulo,String Descripcion,int indice) {
 
@@ -67,19 +69,10 @@ public class Servicio extends Service {
 
         long hora = System.currentTimeMillis();
 
-        Intent i = new Intent(this, addNota.class);
+        Intent i = new Intent(this, MainActivity.class);
 
 
-        i.putExtra("operacion", "1");
-        i.putExtra("id",listarecordatorios.get(indice).getId()+"");
-        i.putExtra("titulo",  listarecordatorios.get(indice).getTitulo());
-        i.putExtra("descripcion",  listarecordatorios.get(indice).getDescripcion());
-        i.putExtra("fecha",  listarecordatorios.get(indice).getFecha());
-        i.putExtra("hora", listarecordatorios.get(indice).getHora());
-
-
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1002, i, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, 0);
 
         mBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(getApplicationContext())
                 .setContentIntent(pendingIntent)
@@ -94,7 +87,7 @@ public class Servicio extends Service {
         mNotifyMgr.notify(x, mBuilder.build());
 
     }
-/*
+
 
     public class hilo extends Thread{
         @Override
@@ -102,12 +95,13 @@ public class Servicio extends Service {
             while (true){
 
                 try {
-
-                    DaoRecordatorio dao = new DaoRecordatorio(getApplicationContext());
+                    /*
+                    DaoRecordatorios dao = new DaoRecordatorios(getApplicationContext());
+                    DaoNotas daonotas = new DaoNotas(getApplicationContext());
 
 
                     final Calendar c= Calendar.getInstance();
-                    String fecha = c.get(Calendar.DAY_OF_MONTH)+"/"+(c.get(Calendar.MONTH)+1)+"/"+c.get(Calendar.YEAR);
+                    String fecha = c.get(Calendar.YEAR)+"/"+(c.get(Calendar.MONTH)+1)+"/"+c.get(Calendar.DAY_OF_MONTH);
                     String hora = c.get(Calendar.HOUR_OF_DAY)+":"+c.get(Calendar.MINUTE);
 
 
@@ -117,13 +111,10 @@ public class Servicio extends Service {
 
                     Recordatorio recordatorio = new Recordatorio();
                     recordatorio.setId(1);
-                    recordatorio.setTitulo("Titulo");
-                    recordatorio.setDescripcion("Descripcion");
                     recordatorio.setFecha("Fecha");
                     recordatorio.setHora("Hora");
-
+                    recordatorio.setNota(1);
                     lista.add(recordatorio);
-
 
 
                     for (int i = 0; i < lista.size(); i++) {
@@ -132,18 +123,22 @@ public class Servicio extends Service {
 
                             Recordatorio recordatorio1 = new Recordatorio();
                             recordatorio1.setId(lista.get(i).getId());
-                            recordatorio1.setTitulo(lista.get(i).getTitulo());
-                            recordatorio1.setDescripcion(lista.get(i).getDescripcion());
                             recordatorio1.setFecha(lista.get(i).getFecha());
                             recordatorio1.setHora(lista.get(i).getHora());
-                            listarecordatorios.add(recordatorio1);
 
-                            btnNoti_click(lista.get(i).getTitulo(), lista.get(i).getDescripcion(),i);
+                             listarecordatorios.add(recordatorio1);
+
+                             Notas nota = new Notas();
+                             nota = daonotas.obtenerNotaoTarea(lista.get(i).getNota()+"");
+
+                            if(nota.getTitulo().trim().length()>0 && nota.getDescripcion().trim().length()>0) {
+                                btnNoti_click(nota.getTitulo(), nota.getDescripcion(), i);
+                            }
 
                              }
 
                          }
-
+                    */
                     Thread.sleep(1000);
 
 
@@ -156,5 +151,4 @@ public class Servicio extends Service {
         }
     }
 
-*/
 }
