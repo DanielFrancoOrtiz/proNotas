@@ -35,6 +35,7 @@ import java.io.File;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.Calendar;
+import java.util.List;
 
 
 /**
@@ -195,6 +196,17 @@ public class addNota extends Fragment {
                     }
                     
                 }
+
+                ////Solo muestra las tareas no realizadas
+
+                List<NotaTarea> lista = new DaoNotaTarea(getContext()).getActivitys();
+                for (int i =0;i<lista.size();i++){
+                    Log.e("Lista::::::::::",lista.get(i).getTitulo()+" : "+lista.get(i).getHora());
+                    Toast.makeText(getContext(),lista.get(i).getTitulo()+lista.get(i).getHora()+" No realizada",Toast.LENGTH_LONG).show();
+                }
+
+
+
             }
         });
         etDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {

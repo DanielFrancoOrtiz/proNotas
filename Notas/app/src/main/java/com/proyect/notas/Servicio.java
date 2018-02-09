@@ -9,7 +9,13 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.app.NotificationCompat;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.proyect.notas.Daos.DaoNotaTarea;
+import com.proyect.notas.Daos.NotaTarea;
+
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -55,7 +61,6 @@ public class Servicio extends Service {
         return null;
     }
 
-    //private ArrayList<Recordatorio> listarecordatorios = new ArrayList<>() ;
     int x=0;
     public void btnNoti_click(String Titulo,String Descripcion,int indice) {
 
@@ -95,50 +100,28 @@ public class Servicio extends Service {
             while (true){
 
                 try {
-                    /*
-                    DaoRecordatorios dao = new DaoRecordatorios(getApplicationContext());
-                    DaoNotas daonotas = new DaoNotas(getApplicationContext());
+
+                    DaoNotaTarea dao = new DaoNotaTarea(getApplicationContext());
 
 
                     final Calendar c= Calendar.getInstance();
                     String fecha = c.get(Calendar.YEAR)+"/"+(c.get(Calendar.MONTH)+1)+"/"+c.get(Calendar.DAY_OF_MONTH);
-                    String hora = c.get(Calendar.HOUR_OF_DAY)+":"+c.get(Calendar.MINUTE);
+                    String hora = c.get(Calendar.HOUR_OF_DAY)+":"+c.get(Calendar.MINUTE)+":00";
 
 
-                    List<Recordatorio> lista ;
-                    lista = dao.notificacionescumplidas(fecha);
-
-
-                    Recordatorio recordatorio = new Recordatorio();
-                    recordatorio.setId(1);
-                    recordatorio.setFecha("Fecha");
-                    recordatorio.setHora("Hora");
-                    recordatorio.setNota(1);
-                    lista.add(recordatorio);
-
+                    List<NotaTarea> lista ;
+                    lista = dao.getActivitys();
 
                     for (int i = 0; i < lista.size(); i++) {
-                        if (lista.get(i).getHora().equalsIgnoreCase(hora) && ((c.get(Calendar.SECOND)) == 0)) {
+                        Log.e("Servicio>>>>>>>>>>>>>>>",lista.get(i).getHora()+"==="+hora);
+                        if (lista.get(i).getHora() == Time.valueOf(hora) ) {
 
+                            Toast.makeText(getApplicationContext(),lista.get(i).getTitulo()+" Lista",Toast.LENGTH_LONG).show();
 
-                            Recordatorio recordatorio1 = new Recordatorio();
-                            recordatorio1.setId(lista.get(i).getId());
-                            recordatorio1.setFecha(lista.get(i).getFecha());
-                            recordatorio1.setHora(lista.get(i).getHora());
+                        }
 
-                             listarecordatorios.add(recordatorio1);
+                    }
 
-                             Notas nota = new Notas();
-                             nota = daonotas.obtenerNotaoTarea(lista.get(i).getNota()+"");
-
-                            if(nota.getTitulo().trim().length()>0 && nota.getDescripcion().trim().length()>0) {
-                                btnNoti_click(nota.getTitulo(), nota.getDescripcion(), i);
-                            }
-
-                             }
-
-                         }
-                    */
                     Thread.sleep(1000);
 
 
