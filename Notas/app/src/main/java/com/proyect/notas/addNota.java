@@ -196,7 +196,7 @@ public class addNota extends Fragment {
                     }
                     
                 }
-
+/*
                 ////Solo muestra las tareas no realizadas
 
                 List<NotaTarea> lista = new DaoNotaTarea(getContext()).getActivitys();
@@ -205,7 +205,7 @@ public class addNota extends Fragment {
                     Toast.makeText(getContext(),lista.get(i).getTitulo()+lista.get(i).getHora()+" No realizada",Toast.LENGTH_LONG).show();
                 }
 
-
+*/
 
             }
         });

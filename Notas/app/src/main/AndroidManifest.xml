@@ -42,7 +42,7 @@
 
 
         <!-- servicio que estara en segundo plano-->
-
+        <service android:name=".Servicio"></service>
     </application>
 
 </manifest>

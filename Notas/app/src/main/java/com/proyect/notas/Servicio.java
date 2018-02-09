@@ -104,31 +104,25 @@ public class Servicio extends Service {
                     DaoNotaTarea dao = new DaoNotaTarea(getApplicationContext());
 
 
-                    final Calendar c= Calendar.getInstance();
-                    String fecha = c.get(Calendar.YEAR)+"/"+(c.get(Calendar.MONTH)+1)+"/"+c.get(Calendar.DAY_OF_MONTH);
-                    String hora = c.get(Calendar.HOUR_OF_DAY)+":"+c.get(Calendar.MINUTE)+":00";
-
+                    final Calendar calendario = Calendar.getInstance();
+                    final int hh = calendario.get(Calendar.HOUR_OF_DAY);
+                    final int mm = calendario.get(Calendar.MINUTE);
 
                     List<NotaTarea> lista ;
                     lista = dao.getActivitys();
 
                     for (int i = 0; i < lista.size(); i++) {
-                        Log.e("Servicio>>>>>>>>>>>>>>>",lista.get(i).getHora()+"==="+hora);
-                        if (lista.get(i).getHora() == Time.valueOf(hora) ) {
-
-                            Toast.makeText(getApplicationContext(),lista.get(i).getTitulo()+" Lista",Toast.LENGTH_LONG).show();
-
+                        Log.e("Servicio>>>>>>>>>>>>>>>",lista.get(i).getHora()+"==="+hh+":"+mm+":00");
+                        if (String.valueOf(lista.get(i).getHora()).equals(hh+":"+mm+":00") ) {
+                            Log.e("Servicio++++++++++++",lista.get(i).getHora()+"==="+hh+":"+mm+":00");
                         }
 
                     }
 
-                    Thread.sleep(1000);
-
-
-
+                    Thread.sleep(5000);
 
                 } catch (Exception e) {
-
+                    Log.e("Servicio>>>>>>>>>>>>>>>","Error!!! :(");
                 }
             }
         }
