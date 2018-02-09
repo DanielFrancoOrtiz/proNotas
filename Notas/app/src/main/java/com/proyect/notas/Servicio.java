@@ -114,15 +114,22 @@ public class Servicio extends Service {
                     for (int i = 0; i < lista.size(); i++) {
                         Log.e("Servicio>>>>>>>>>>>>>>>",lista.get(i).getHora()+"==="+hh+":"+mm+":00");
                         if (String.valueOf(lista.get(i).getHora()).equals(hh+":"+mm+":00") ) {
-                            Log.e("Servicio++++++++++++",lista.get(i).getHora()+"==="+hh+":"+mm+":00");
+                            //Log.e("Servicio++++++++++++",lista.get(i).getHora()+"==="+hh+":"+mm+":00");
+                            lista.get(i).setRealizada(1);
+                            btnNoti_click(lista.get(i).getTitulo(),lista.get(i).getDescripcion(),i);
                         }
 
                     }
 
-                    Thread.sleep(5000);
-
                 } catch (Exception e) {
-                    Log.e("Servicio>>>>>>>>>>>>>>>","Error!!! :(");
+                    Log.e("Servicio>>>>>>>>>>>>>>>","Error!!! :( "+e);
+                }finally {
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
                 }
             }
         }
