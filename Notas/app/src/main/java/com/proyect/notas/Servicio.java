@@ -18,6 +18,7 @@ import com.proyect.notas.Daos.NotaTarea;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class Servicio extends Service {
@@ -68,14 +69,13 @@ public class Servicio extends Service {
         NotificationCompat.Builder mBuilder;
         NotificationManager mNotifyMgr = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
 
-        Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+       Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
 
         int icono = R.mipmap.calendar;
 
         long hora = System.currentTimeMillis();
 
         Intent i = new Intent(this, MainActivity.class);
-
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, 0);
 
@@ -87,7 +87,8 @@ public class Servicio extends Service {
                 .setWhen(hora)
                 .setVibrate(new long[]{100, 250, 100, 500})
                 .setAutoCancel(true)
-                .setSound(defaultSound);
+                .setSound(defaultSound)
+        ;
 
         mNotifyMgr.notify(x, mBuilder.build());
 
@@ -107,15 +108,18 @@ public class Servicio extends Service {
                     final Calendar calendario = Calendar.getInstance();
                     final int hh = calendario.get(Calendar.HOUR_OF_DAY);
                     final int mm = calendario.get(Calendar.MINUTE);
-
                     List<NotaTarea> lista ;
                     lista = dao.getActivitys();
-
+                    if (lista==null){
+                        lista = new ArrayList<>();
+                    }
                     for (int i = 0; i < lista.size(); i++) {
-                        Log.e("Servicio>>>>>>>>>>>>>>>",lista.get(i).getHora()+"==="+hh+":"+mm+":00");
-                        if (String.valueOf(lista.get(i).getHora()).equals(hh+":"+mm+":00") ) {
-                            //Log.e("Servicio++++++++++++",lista.get(i).getHora()+"==="+hh+":"+mm+":00");
+                        if (String.valueOf(lista.get(i).getHora()).equals(
+                                (String.valueOf(hh).matches("[0-9][0-9]")?hh:"0"+hh)+":"+
+                                        (String.valueOf(mm).matches("[0-9][0-9]")?mm:"0"+mm)+":00") ) {
                             lista.get(i).setRealizada(1);
+                            dao.Update(lista.get(i));
+
                             btnNoti_click(lista.get(i).getTitulo(),lista.get(i).getDescripcion(),i);
                         }
 
